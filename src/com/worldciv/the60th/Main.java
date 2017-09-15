@@ -1,5 +1,7 @@
 package com.worldciv.the60th;
 
+import com.worldciv.events.other.JoinEvent;
+import com.worldciv.events.player.AttackEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -18,10 +20,11 @@ import java.util.logging.Logger;
 public class Main extends JavaPlugin implements Listener{
     FileConfiguration config = getConfig();
     private static Plugin plugin;
-    //public static ScoreboardManager manager = Bukkit.getScoreboardManager();
-    //public static Scoreboard board = manager.getNewScoreboard();
-    //public static Team team = board.registerNewTeam("holdingLight");
+    public static Plugin getPlugin() {
+        return plugin;
+    }
     public void onEnable() {
+        plugin = this;
         PluginDescriptionFile pdfFile = this.getDescription();
         Logger logger = Logger.getLogger("Minecraft");
 
@@ -29,9 +32,6 @@ public class Main extends JavaPlugin implements Listener{
                 + "has successfully enabled. The current version is: "
                 + pdfFile.getVersion());
         registerEvents();
-        //team.setPrefix("Torch");
-        //System.out.print(team.getName());
-        // System.out.print(team.getPrefix());
 
     }
 
@@ -46,19 +46,13 @@ public class Main extends JavaPlugin implements Listener{
     }
     public void registerEvents(){
         PluginManager pm = getServer().getPluginManager();
-       // pm.registerEvents(new class(), this);
-        //pm.registerEvents(new class(), this);
+        pm.registerEvents(new JoinEvent(), this);
+        pm.registerEvents(new AttackEvent(), this);
     }
     private void registerPermissons(){
         //PluginManager pm = getServer().getPluginManager();
         //Permission p = new Permission("Permisson name");
         //pm.addPermission(p);
 
-    }
-
-
-
-    public static Plugin getPlugin() {
-        return plugin;
     }
 }
