@@ -24,29 +24,46 @@ public class AttackEvent implements Listener {
     }
     @EventHandler
     public void onEntityDamageEvent(EntityDamageByEntityEvent event){
+
         float t = ((EntityPlayer)(((CraftPlayer)event.getDamager()).getHandle())).o(1);
+
         Entity attacker = event.getDamager(); //Attacker
         Entity defender = event.getEntity(); //Defender
+        Player pAttacker = (Player) attacker;
+        Player pDefender = (Player) defender;
+
         if(!(attacker instanceof Player) || !(defender instanceof Player)){
             //Not a PvP action, handle this elsewhere --> Write function to handle this with two Entity as params
             return;
         }
-        Player pAttacker = (Player) attacker;
-        Player pDefender = (Player) defender;
-        double damageDealt = event.getDamage(); //Damage pre mod.
+
+        double preDmgDealt = event.getDamage(); //Damage pre mod.
         double finalDamage = event.getFinalDamage(); //Is post mod IE armor / res.
         double ogDamage = event.getOriginalDamage(EntityDamageEvent.DamageModifier.BASE); //Not sure what this gives? Damage pre this modifer only most likely.
         //double swingTimer = //This value most likely needs to be found via NMS. Needs to be done at a later point.
         double swingTimer = ((EntityPlayer)(((CraftPlayer)attacker).getHandle())).o(1);
-        System.out.print(pAttacker.getDisplayName() + " Dealt " + damageDealt + " damage and " + finalDamage + " finalDamage and " + swingTimer + " swingTimer.");
+
+        System.out.print(pAttacker.getDisplayName() + " Dealt " + preDmgDealt + " damage and " + finalDamage + " finalDamage and " + swingTimer + " swingTimer.");
         System.out.print("Attack timer value " + t);
-        //currently has an improt related error fix later.
+
+
+
+
+
+
+
+
+
+
+
        /* new BukkitRunnable(){public void run(){
             for(Player player : Bukkit.getOnlinePlayers()){
                 EntityPlayer ep = ((CraftPlayer)player).getHandle();
                player.sendMessage("o(0) == "+ep.o(1));
             }
         }}.runTaskTimer(Main.getPlugin(), 0, 1);*/
+
+
         /* OOO // Flow
         * On attack
         *  >Get attackers normal damage

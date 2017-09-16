@@ -1,4 +1,4 @@
-package com.worldciv.events.other;
+package com.worldciv.events.player;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

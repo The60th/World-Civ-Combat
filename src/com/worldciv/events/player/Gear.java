@@ -12,7 +12,7 @@ import java.util.Arrays;
 
 public class Gear {
 
-    public void woodswordrecipe() {
+    public static void woodswordrecipe() {
         ItemStack wsword = new ItemStack(Material.WOOD_SWORD, 1);
         ItemMeta meta = wsword.getItemMeta();
         meta.setDisplayName(ChatColor.GRAY  + "XxWooden SwordxX");
