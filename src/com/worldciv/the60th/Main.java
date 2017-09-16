@@ -2,6 +2,7 @@ package com.worldciv.the60th;
 
 import com.worldciv.events.other.JoinEvent;
 import com.worldciv.events.player.AttackEvent;
+import com.worldciv.events.player.Gear;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -32,6 +33,8 @@ public class Main extends JavaPlugin implements Listener{
                 + "has successfully enabled. The current version is: "
                 + pdfFile.getVersion());
         registerEvents();
+
+        Gear.woodswordrecipe();
 
     }
 
