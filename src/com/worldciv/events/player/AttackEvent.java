@@ -44,7 +44,9 @@ public class AttackEvent implements Listener {
         double swingTimer = ((EntityPlayer)(((CraftPlayer)attacker).getHandle())).o(1);
 
         System.out.print(pAttacker.getDisplayName() + " Dealt " + preDmgDealt + " damage and " + finalDamage + " finalDamage and " + swingTimer + " swingTimer.");
-        System.out.print("Attack timer value " + t);
+
+
+
 
 
 

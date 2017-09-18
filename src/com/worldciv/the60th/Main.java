@@ -2,7 +2,7 @@ package com.worldciv.the60th;
 
 import com.worldciv.events.player.JoinEvent;
 import com.worldciv.events.player.AttackEvent;
-import com.worldciv.events.player.Gear;
+import com.worldciv.filesystem.Gear;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
@@ -16,6 +16,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.logging.Logger;
 
 public class Main extends JavaPlugin implements Listener{
+
     FileConfiguration config = getConfig();
     public static Plugin plugin;
 
