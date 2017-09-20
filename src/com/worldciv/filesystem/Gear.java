@@ -1,5 +1,6 @@
 package com.worldciv.filesystem;
 
+import com.worldciv.the60th.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -15,12 +16,8 @@ public class Gear {
     public static int x;
 
     public static void woodswordrecipe() {
-        ItemStack wsword = new ItemStack(Material.WOOD_SWORD, 1);
-        ItemMeta meta = wsword.getItemMeta();
-        meta.setDisplayName(ChatColor.GRAY + "XxWooden SwordxX");
-        meta.setLore(Arrays.asList("Testing", "the lore", "4 this item."));
-        wsword.setItemMeta(meta);
-
+        ItemStack wsword;
+        wsword = CustomItem.getItemFromCustomItem(Main.fileSystem.createItem((new ItemStack(Material.WOOD_SWORD,1)),Tier.three,WeaponType.sword ));
         ShapedRecipe woodswordrecipe = new ShapedRecipe(wsword);
         woodswordrecipe.shape(
                 "@ @",
@@ -49,6 +46,7 @@ public class Gear {
 
 
     }
+
 }
 
 

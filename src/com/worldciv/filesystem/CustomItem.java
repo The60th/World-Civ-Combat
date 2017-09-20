@@ -1,11 +1,16 @@
 package com.worldciv.filesystem;
 
+import net.minecraft.server.v1_11_R1.Item;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import javax.rmi.CORBA.Tie;
+import java.util.Arrays;
 
 public class CustomItem extends  FileSystem{
-    private ItemStack itemStack;
+    private static ItemStack itemStack;
     private String name;
     private String id;
     private int damage;
@@ -13,7 +18,7 @@ public class CustomItem extends  FileSystem{
     private int other;
     private Rarity rarity;
     private Tier tier;
-
+    private WeaponType weaponType;
     public CustomItem(){}
 
     public CustomItem(ItemStack itemStack, String name, String id, int damage, int armor){
@@ -25,13 +30,26 @@ public class CustomItem extends  FileSystem{
 
     }
     public CustomItem(ItemStack itemStack, String name, String id, int damage, int armor, Rarity rarity, Tier tier){
-
+        setItemStack(itemStack);
+        setName(name);
+        setId(id);
+        setDamage(damage);
+        setArmor(armor);
+        setRarity(rarity);
+        setTier(tier);
+        setOther(-1);
     }
 
 
 
-    public ItemStack getItemFromCustomItem(CustomItem customItem){
-        return null;
+    public static ItemStack getItemFromCustomItem(CustomItem customItem){
+        ItemStack item = new ItemStack(customItem.getItemStack().getType(), 1);
+        ItemMeta meta = item.getItemMeta();
+
+        meta.setDisplayName(ItemGenerator.getColorFromRarity(customItem.getRarity()) + customItem.getName());
+        meta.setLore(Arrays.asList("Item Tier: " + customItem.tier, "Item Rarity: " + customItem.rarity ,"Damage: " + customItem.damage, "Armor: " + customItem.getArmor(), "UID: " + customItem.getId()));
+        item.setItemMeta(meta);
+        return item;
     }
 
     //Save an item return true if it does.
@@ -84,4 +102,21 @@ public class CustomItem extends  FileSystem{
     public void setOther(int other) {
         this.other = other;
     }
+
+    public Rarity getRarity() {
+        return rarity;
+    }
+
+    public void setRarity(Rarity rarity) {
+        this.rarity = rarity;
+    }
+
+    public Tier getTier() {
+        return tier;
+    }
+
+    public void setTier(Tier tier) {
+        this.tier = tier;
+}
+
 }

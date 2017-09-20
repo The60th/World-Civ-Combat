@@ -2,7 +2,7 @@ package com.worldciv.the60th;
 
 import com.worldciv.events.player.JoinEvent;
 import com.worldciv.events.player.AttackEvent;
-import com.worldciv.filesystem.CustomItems;
+import com.worldciv.filesystem.CustomItem;
 import com.worldciv.filesystem.FileSystem;
 import com.worldciv.filesystem.Gear;
 
@@ -13,6 +13,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import sun.rmi.runtime.Log;
 
 
 import java.io.File;
@@ -23,12 +24,13 @@ public class Main extends JavaPlugin implements Listener{
     FileConfiguration config = getConfig();
     public static Plugin plugin;
     public static FileSystem fileSystem;
+    public static Logger logger;
 
     public void onEnable() {
         plugin = this;
         fileSystem = new FileSystem();
+        logger = Logger.getLogger("Minecraft");
         PluginDescriptionFile pdfFile = this.getDescription();
-        Logger logger = Logger.getLogger("Minecraft");
 
         logger.info(pdfFile.getName()
                 + "has successfully enabled. The current version is: "
@@ -41,7 +43,6 @@ public class Main extends JavaPlugin implements Listener{
 
     public void onDisable() {
         PluginDescriptionFile pdfFile = getDescription();
-        Logger logger = Logger.getLogger("Minecraft");
         logger.info(pdfFile.getName() + "has successfully disabled.");
     }
 

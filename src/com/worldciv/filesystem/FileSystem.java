@@ -1,6 +1,7 @@
 package com.worldciv.filesystem;
 
 import com.sun.org.apache.bcel.internal.generic.Select;
+import com.worldciv.the60th.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.WeatherType;
@@ -14,11 +15,11 @@ public class FileSystem {
     public static boolean exists = false;
 
     public FileSystem(){
-        File dir = new File(Bukkit.getPluginManager().getPlugin("CombatTestStatsMain").getDataFolder()+"/Custom_Items");
+        File dir = new File(Bukkit.getPluginManager().getPlugin("World_Civ_Combat").getDataFolder()+"/Custom_Items");
         if(!dir.exists()) {
             dir.mkdir();
             Bukkit.broadcastMessage(ChatColor.DARK_RED + "" + ChatColor.BOLD + "Warning!");
-            System.out.print("Creating new UID System, please check all plugins if this is not wanted!");
+            Main.logger.info(("Creating new UID System, please check all plugins if this is not wanted!"));
             File file = new File(dir, "Custom_Items_UID_System.yml");
             if (!(file.exists())) {
                 Bukkit.broadcastMessage(ChatColor.DARK_RED + "" + ChatColor.BOLD + "Warning!");
@@ -61,20 +62,71 @@ public class FileSystem {
             }
         }
         else{
-            exists = true;
+            this.exists = true;
         }
-        System.out.print("Loading UID system.");
+        Main.logger.info("Loading UID system.");
 
     }
+    public boolean saveItem(CustomItem item){
+        File dir = new File(Bukkit.getPluginManager().getPlugin("World_Civ_Combat").getDataFolder()+"/Custom_Items");
+        if(dir.exists()) {
+            File file = new File(dir,item.getId()+".yml");
+            if(file.exists()){
+                Main.logger.info("Failed error has occurred when saving an item. Item UUID: [" + item.getId() + "}");
+                return false;
+            }else{
+                YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
+                yaml = createFileSectionsFromFile(yaml);
+                yaml = writeDataToFile(yaml,item);
+                try {
+                    yaml.save(file);
+                    return true;
+                } catch (IOException e) {
+                    Main.logger.info("Failed error has occurred when saving an item. Item UUID: [" + item.getId() + "}");
+                    e.printStackTrace();
+                    return false;
+                }
+            }
+        }else{
+            Main.logger.info("Failed error has occurred when saving an item. Item UUID: [" + item.getId() + "}");
+            return false;
+        }
 
+    }
     public CustomItem createItem(ItemStack itemType,Tier tier, WeaponType weaponType){
         CustomItem customItem = ItemGenerator.generateItem(itemType,tier,weaponType);
-        return null;
+        return customItem;
     }
     public CustomItem createItem(ItemStack itemType, Tier tier, ArmorType armorType){
 
 
         return null;
     }
-
+    private YamlConfiguration createFileSectionsFromFile(YamlConfiguration yamlConfiguration){
+        yamlConfiguration.createSection("Item-Data");
+        yamlConfiguration.createSection("Item-Data.UUID");
+        yamlConfiguration.createSection("Item-Data.Name");
+        yamlConfiguration.createSection("Item-Data.Damage");
+        yamlConfiguration.createSection("Item-Data.Armor");
+        yamlConfiguration.createSection("Item-Data.Rarity");
+        yamlConfiguration.createSection("Item-Data.Tier");
+        yamlConfiguration.createSection("Item-Data.ItemType");
+        yamlConfiguration.createSection("Item-Data.Lore");
+        yamlConfiguration.createSection("Item-Data.Other");
+        yamlConfiguration.createSection("Item-Data.ItemStack");
+        return yamlConfiguration;
+    }
+    private YamlConfiguration writeDataToFile(YamlConfiguration yamlConfiguration, CustomItem item){
+        if(item.getId()!=null)yamlConfiguration.set("Item-Data.UUID",item.getId());
+        if(item.getName()!=null)yamlConfiguration.set("Item-Data.Name",item.getName());
+        if(item.getDamage()!=-1)yamlConfiguration.set("Item-Data.Damage",item.getDamage());
+        if(item.getArmor()!=-1)yamlConfiguration.set("Item-Data.Armor",item.getArmor());
+        if(item.getRarity()!=null)yamlConfiguration.set("Item-Data.Rarity",item.getRarity());
+        if(item.getTier()!=null)yamlConfiguration.set("Item-Data.Tier",item.getTier());
+        if(item.getId()!=null)yamlConfiguration.set("Item-Data.ItemType",-1);
+        if(item.getOther()!=-1)yamlConfiguration.set("Item-Data.Lore",item.getOther());
+        if(item.getOther()!=-1)yamlConfiguration.set("Item-Data.Other",item.getOther());
+        if(item.getItemStack()!=null)yamlConfiguration.set("Item-Data.ItemStack",item.getItemStack());
+        return yamlConfiguration;
+    }
 }
