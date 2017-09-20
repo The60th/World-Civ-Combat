@@ -1,5 +1,7 @@
 package com.worldciv.the60th;
 
+import com.worldciv.events.inventory.CraftEvent;
+import com.worldciv.events.inventory.CraftEvent;
 import com.worldciv.events.player.JoinEvent;
 import com.worldciv.events.player.AttackEvent;
 import com.worldciv.filesystem.CustomItem;
@@ -28,8 +30,8 @@ public class Main extends JavaPlugin implements Listener{
 
     public void onEnable() {
         plugin = this;
-        fileSystem = new FileSystem();
         logger = Logger.getLogger("Minecraft");
+        fileSystem = new FileSystem();
         PluginDescriptionFile pdfFile = this.getDescription();
 
         logger.info(pdfFile.getName()
@@ -39,6 +41,8 @@ public class Main extends JavaPlugin implements Listener{
 
         Gear.woodswordrecipe();
         Gear.basiccplaterecipe();
+        Gear.newRecipe();
+        Gear.customTierOneSword();
     }
 
     public void onDisable() {
@@ -50,6 +54,7 @@ public class Main extends JavaPlugin implements Listener{
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(new JoinEvent(), this);
         pm.registerEvents(new AttackEvent(), this);
+        pm.registerEvents(new CraftEvent(), this);
     }
 
 }

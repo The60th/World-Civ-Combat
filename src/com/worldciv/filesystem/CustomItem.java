@@ -1,6 +1,7 @@
 package com.worldciv.filesystem;
 
 import net.minecraft.server.v1_11_R1.Item;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -47,9 +48,16 @@ public class CustomItem extends  FileSystem{
         ItemMeta meta = item.getItemMeta();
 
         meta.setDisplayName(ItemGenerator.getColorFromRarity(customItem.getRarity()) + customItem.getName());
-        meta.setLore(Arrays.asList("Item Tier: " + customItem.tier, "Item Rarity: " + customItem.rarity ,"Damage: " + customItem.damage, "Armor: " + customItem.getArmor(), "UID: " + customItem.getId()));
+        meta.setLore(Arrays.asList(ChatColor.GRAY+"Item Tier: " + ChatColor.WHITE + customItem.tier,
+                ChatColor.GRAY+"Item Rarity: " +ItemGenerator.getColorFromRarity(customItem.getRarity())+ customItem.rarity ,
+                ChatColor.GRAY+"Damage: " + ChatColor.WHITE + customItem.damage, ChatColor.GRAY+"Armor: " + ChatColor.WHITE + customItem.getArmor(),
+                ChatColor.GRAY+"UID: " + unhideItemUUID(customItem.getId())));
         item.setItemMeta(meta);
         return item;
+    }
+
+    public static String unhideItemUUID(String string){
+        return string.replaceAll("§", "");
     }
 
     //Save an item return true if it does.

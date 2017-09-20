@@ -1,11 +1,9 @@
 package com.worldciv.filesystem;
 
 import com.worldciv.the60th.Main;
-import net.minecraft.server.v1_11_R1.Enchantment;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 
-import javax.rmi.CORBA.Tie;
 import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
@@ -42,9 +40,9 @@ public class ItemGenerator {
     public static CustomItem generateItem(ItemStack itemStack, Tier tier,WeaponType weaponType){
         Rarity rarity = calculateRarity(0);
 
-        int stat = calculateStatWithRarity(rarity);
+        int stat = calculateStat(rarity,tier);
         String name = "This is a dummy name";
-        String id = createUID();
+        String id = CustomItem.unhideItemUUID(createUUID());
         Main.logger.info(("Custom ID: " + id));
         id = convertToInvisibleString(id);
         Main.logger.info(("Custom ID: " + id));
@@ -53,10 +51,10 @@ public class ItemGenerator {
     public static CustomItem generateItem(ItemStack itemStack, Tier tier, ArmorType armorType){
         Rarity rarity = calculateRarity(0);
 
-        int stat = calculateStatWithRarity(rarity)/4;
+        int stat = calculateStat(rarity,tier)/4;
         if(stat <= 0){stat = 1;}
         String name = "this is a dummy name";
-        String id = createUID();
+        String id = CustomItem.unhideItemUUID(createUUID());
         id = convertToInvisibleString(id);
         return new CustomItem(itemStack,name,id,0,stat,rarity,tier);
     }
@@ -65,37 +63,52 @@ public class ItemGenerator {
         //Add checks for the modifier later on.
         Random random = new Random(System.currentTimeMillis());
         int x = random.nextInt(100)+1;
-        if(isBetween(x,0,20)){ return Rarity.common; }
-        else if(isBetween(x,21,40)){return Rarity.uncommon;}
-        else if(isBetween(x,41,60)){return Rarity.rare;}
-        else if(isBetween(x,61,80)){return Rarity.epic;}
-        else if(isBetween(x,81,100)){return Rarity.legendary;}
+        if(isBetween(x,0,20)){ return Rarity.Common; }
+        else if(isBetween(x,21,40)){return Rarity.Uncommon;}
+        else if(isBetween(x,41,60)){return Rarity.Rare;}
+        else if(isBetween(x,61,80)){return Rarity.Epic;}
+        else if(isBetween(x,81,100)){return Rarity.Legendary;}
         else{
             Main.logger.info(("Rarity generation error has happened."));
-            return Rarity.common;
+            return Rarity.Common;
         }
     }
-    private static int calculateStatWithRarity(Rarity rarity){
+    private static int calculateStat(Rarity rarity,Tier tier){
         int calculatedValue;
-        switch (rarity){
-            case common:
+        switch (tier){
+            case I:
                  calculatedValue = ThreadLocalRandom.current().nextInt(tierOneMin, tierOneMax + 1);
+                break;
+            case II:
+                 calculatedValue = ThreadLocalRandom.current().nextInt(tierTwoMin, tierTwoMax + 1);
+                break;
+            case III:
+                 calculatedValue = ThreadLocalRandom.current().nextInt(tierFourMin, tierThreeMax + 1);
+                break;
+            case IV:
+                 calculatedValue = ThreadLocalRandom.current().nextInt(tierThreeMin, tierFourMax + 1);
+                break;
+            case V:
+                calculatedValue = ThreadLocalRandom.current().nextInt(tierFiveMin, tierFiveMax + 1);
+                break;
+            default:
+                calculatedValue = -1;
+                break;
+        }
+        switch (rarity){
+            case Common:
                 calculatedValue = calculatedValue + commonMod;
                 break;
-            case uncommon:
-                 calculatedValue = ThreadLocalRandom.current().nextInt(tierTwoMin, tierTwoMax + 1);
+            case Uncommon:
                 calculatedValue = calculatedValue + uncommonMod;
                 break;
-            case rare:
-                 calculatedValue = ThreadLocalRandom.current().nextInt(tierFourMin, tierThreeMax + 1);
+            case Rare:
                 calculatedValue = calculatedValue + rareMod;
                 break;
-            case epic:
-                 calculatedValue = ThreadLocalRandom.current().nextInt(tierThreeMin, tierFourMax + 1);
+            case Epic:
                 calculatedValue = calculatedValue + epicMod;
                 break;
-            case legendary:
-                 calculatedValue = ThreadLocalRandom.current().nextInt(tierFiveMin, tierFiveMax + 1);
+            case Legendary:
                 calculatedValue = calculatedValue + legendaryMod;
                 break;
             default:
@@ -106,15 +119,15 @@ public class ItemGenerator {
     }
     public static ChatColor getColorFromRarity(Rarity rarity){
         switch (rarity){
-            case common:
+            case Common:
                 return ChatColor.WHITE;
-            case uncommon:
+            case Uncommon:
                 return ChatColor.GREEN;
-            case rare:
+            case Rare:
                 return ChatColor.BLUE;
-            case epic:
+            case Epic:
                 return ChatColor.DARK_PURPLE;
-            case legendary:
+            case Legendary:
                 return ChatColor.GOLD;
             default:
                 return ChatColor.RED;
@@ -123,7 +136,7 @@ public class ItemGenerator {
     private static boolean isBetween(int x, int lower, int upper) {
         return lower <= x && x <= upper;
     }
-    private static String createUID(){
+    private static String createUUID(){
         return UUID.randomUUID().toString();
     }
     public static String convertToInvisibleString(String s) {

@@ -70,7 +70,7 @@ public class FileSystem {
     public boolean saveItem(CustomItem item){
         File dir = new File(Bukkit.getPluginManager().getPlugin("World_Civ_Combat").getDataFolder()+"/Custom_Items");
         if(dir.exists()) {
-            File file = new File(dir,item.getId()+".yml");
+            File file = new File(dir,CustomItem.unhideItemUUID(item.getId())+".yml");
             if(file.exists()){
                 Main.logger.info("Failed error has occurred when saving an item. Item UUID: [" + item.getId() + "}");
                 return false;
@@ -95,6 +95,7 @@ public class FileSystem {
     }
     public CustomItem createItem(ItemStack itemType,Tier tier, WeaponType weaponType){
         CustomItem customItem = ItemGenerator.generateItem(itemType,tier,weaponType);
+        saveItem(customItem);
         return customItem;
     }
     public CustomItem createItem(ItemStack itemType, Tier tier, ArmorType armorType){
@@ -117,7 +118,7 @@ public class FileSystem {
         return yamlConfiguration;
     }
     private YamlConfiguration writeDataToFile(YamlConfiguration yamlConfiguration, CustomItem item){
-        if(item.getId()!=null)yamlConfiguration.set("Item-Data.UUID",item.getId());
+        if(item.getId()!=null)yamlConfiguration.set("Item-Data.UUID",CustomItem.unhideItemUUID(item.getId()));
         if(item.getName()!=null)yamlConfiguration.set("Item-Data.Name",item.getName());
         if(item.getDamage()!=-1)yamlConfiguration.set("Item-Data.Damage",item.getDamage());
         if(item.getArmor()!=-1)yamlConfiguration.set("Item-Data.Armor",item.getArmor());
