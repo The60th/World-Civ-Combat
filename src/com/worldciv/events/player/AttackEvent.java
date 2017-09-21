@@ -30,6 +30,7 @@ public class AttackEvent implements Listener {
     }
     @EventHandler
     public void onEntityDamageEvent(EntityDamageByEntityEvent event) {
+
         Entity attacker = event.getDamager(); //Attacker
         Entity defender = event.getEntity(); //Defender
         if (!(attacker instanceof Player) || !(defender instanceof Player)) {
@@ -43,7 +44,9 @@ public class AttackEvent implements Listener {
 
         double preDmgDealt = event.getDamage(); //Damage pre mod.
         double finalDamage = event.getFinalDamage(); //Is post mod IE armor / res.
-        double ogDamage = event.getOriginalDamage(EntityDamageEvent.DamageModifier.BASE); //Not sure what this gives? Damage pre this modifer only most likely.
+        //Calculate swing timer shit here.
+        Bukkit.broadcastMessage(customDamage + " damage dealt--Armor used: " + armor);
+        event.setDamage(customDamage-armor); //Temp
     }
 
     private CustomItem[] getArmorItems(Player player){
@@ -53,7 +56,6 @@ public class AttackEvent implements Listener {
         ItemStack boots;
         List<String> lore;
         CustomItem[] customItems = new CustomItem[4];
-        Inventory pInv = player.getInventory();
         if(player.getInventory().getHelmet() != null){
             helm = player.getInventory().getHelmet();
             if(helm.getItemMeta().getLore() != null){
@@ -64,13 +66,31 @@ public class AttackEvent implements Listener {
             }
         }
         if(player.getInventory().getChestplate() != null){
-
+            Chestplate = player.getInventory().getChestplate();
+            if(Chestplate.getItemMeta().getLore() != null){
+                lore = Chestplate.getItemMeta().getLore();
+                if(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).startsWith("UUID: ")){
+                    customItems[1] = CustomItem.getCustomItemFromUUID(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).substring(6));
+                }
+            }
         }
         if(player.getInventory().getLeggings() != null){
-
+            Legs = player.getInventory().getLeggings();
+            if(Legs.getItemMeta().getLore() != null){
+                lore = Legs.getItemMeta().getLore();
+                if(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).startsWith("UUID: ")){
+                    customItems[2] = CustomItem.getCustomItemFromUUID(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).substring(6));
+                }
+            }
         }
         if(player.getInventory().getBoots() != null){
-
+            boots = player.getInventory().getBoots();
+            if(boots.getItemMeta().getLore() != null){
+                lore = boots.getItemMeta().getLore();
+                if(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).startsWith("UUID: ")){
+                    customItems[3] = CustomItem.getCustomItemFromUUID(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).substring(6));
+                }
+            }
         }
         return customItems;
     }
@@ -84,6 +104,31 @@ public class AttackEvent implements Listener {
 
     private CustomItem[] getDamageItems(Player player){
         CustomItem[] customItems = new CustomItem[4];
+        List<String> lore;
+        ItemStack mainHand;
+        ItemStack offHand;
+        ItemStack other;
+
+        if(player.getInventory().getItemInMainHand() != null){
+            mainHand = player.getInventory().getItemInMainHand();
+            if(mainHand.getItemMeta().getLore() != null){
+                lore = mainHand.getItemMeta().getLore();
+                if(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).startsWith("UUID: ")){
+                    customItems[0] = CustomItem.getCustomItemFromUUID(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).substring(6));
+                }
+            }
+        }
+
+        if(player.getInventory().getItemInOffHand() != null){
+            offHand = player.getInventory().getItemInOffHand();
+            if(offHand.getItemMeta().getLore() != null){
+                lore = offHand.getItemMeta().getLore();
+                if(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).startsWith("UUID: ")){
+                    customItems[0] = CustomItem.getCustomItemFromUUID(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).substring(6));
+                }
+            }
+        }
+
         return customItems;
     }
     private int getDamageFromArray(CustomItem[] customItems){
