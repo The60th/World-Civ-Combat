@@ -55,6 +55,9 @@ public class CustomItem extends  FileSystem{
         item.setItemMeta(meta);
         return item;
     }
+    public static CustomItem getCustomItemFromUUID(String UUID){
+        return new CustomItem();
+    }
 
     public static String unhideItemUUID(String string){
         return string.replaceAll("§", "");
