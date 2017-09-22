@@ -78,13 +78,9 @@ public class FileSystem {
                 YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
                 yaml = createFileSectionsFromFile(yaml);
                 yaml = writeDataToFile(yaml,item);
-                Bukkit.broadcastMessage("No2t clear: " + yaml.toString());
 
                 try {
                     yaml.save(file);
-                    Bukkit.broadcastMessage("No2t clear: " + yaml.toString());
-                    Bukkit.broadcastMessage("No2t clear: " + yaml.getInt("Item-Data.Armor"));
-                    Bukkit.broadcastMessage("No2t clear: " + yaml.getString("Item-Data.Name"));
 
 
                     return true;

@@ -59,30 +59,9 @@ public class CustomItem extends  FileSystem{
     }
     public static CustomItem getCustomItemFromUUID(String UUID){
         File dir = new File(Bukkit.getPluginManager().getPlugin("World_Civ_Combat").getDataFolder()+"/Custom_Items");
-        if(dir.exists()) {
-            Bukkit.broadcastMessage("da fuk1: ");
-            Bukkit.broadcastMessage("da fuk1: " + UUID);
-            File file = new File(dir,UUID+".yml");
-            if(file.exists()){
-                Bukkit.broadcastMessage("da fuk2: " );
-            }
-        }
+        File file = new File(dir,UUID+".yml");
         YamlConfiguration yaml;
-        File file = new File(Bukkit.getPluginManager().getPlugin("World_Civ_Combat").getDataFolder()+"/Custom_Items/"+UUID+".yml");
         yaml = YamlConfiguration.loadConfiguration(file);
-        Bukkit.broadcastMessage("Not clear: " + yaml);
-
-        Bukkit.broadcastMessage(file.toString());
-        Bukkit.broadcastMessage(file.getName());
-        Bukkit.broadcastMessage(file.getParent());
-        Bukkit.broadcastMessage(file.getPath());
-        Bukkit.broadcastMessage("clear");
-
-
-        Bukkit.broadcastMessage("?: " + yaml.getInt("Item-Data.Armor"));
-        Bukkit.broadcastMessage("?: " + yaml.getInt("Item-Data.Damage"));
-        Bukkit.broadcastMessage("?: " + yaml.getString("Item-Data.UUID"));
-
         return createItemFromYAML(yaml);
     }
 
@@ -92,7 +71,6 @@ public class CustomItem extends  FileSystem{
                 ,yaml.getInt("Item-Data.Damage"),yaml.getInt("Item-Data.Armor"),
                 /*getRarityFromString(yaml.getString("Item-Data.Rarity"))*/Rarity.Common,/*getTierFromString(yaml.getString("Item-Data.Tier"))*/Tier.I);
         //ItemStack itemStack, String name, String id, int damage, int armor, Rarity rarity, Tier tier
-        Bukkit.broadcastMessage("Name " + item.getName());
         return item;
     }
     private static Rarity getRarityFromString(String string){return Rarity.valueOf(string);}

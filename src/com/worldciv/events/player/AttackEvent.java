@@ -46,7 +46,8 @@ public class AttackEvent implements Listener {
         double finalDamage = event.getFinalDamage(); //Is post mod IE armor / res.
         //Calculate swing timer shit here.
         Bukkit.broadcastMessage(customDamage + " damage dealt--Armor used: " + armor);
-        event.setDamage(customDamage-armor); //Temp
+        event.setDamage(0); //Temp
+        pDefender.setHealth(pDefender.getHealth()-(customDamage-armor)); //Cant set neg major bug
     }
 
     private CustomItem[] getArmorItems(Player player){
@@ -56,12 +57,15 @@ public class AttackEvent implements Listener {
         ItemStack boots;
         List<String> lore;
         CustomItem[] customItems = new CustomItem[4];
+        
         if(player.getInventory().getHelmet() != null){
             helm = player.getInventory().getHelmet();
             if(helm.getItemMeta().getLore() != null){
                 lore = helm.getItemMeta().getLore();
                 if(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).startsWith("7UUID: ")){
-                    customItems[0] = CustomItem.getCustomItemFromUUID(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).substring(6));
+                    Bukkit.broadcastMessage(lore.get(lore.size()-1).substring(7));
+                    customItems[0] = CustomItem.getCustomItemFromUUID(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).substring(7));
+                    Bukkit.broadcastMessage(customItems[0].getArmor() + "0");
                 }
             }
         }
@@ -70,7 +74,8 @@ public class AttackEvent implements Listener {
             if(Chestplate.getItemMeta().getLore() != null){
                 lore = Chestplate.getItemMeta().getLore();
                 if(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).startsWith("7UUID: ")){
-                    customItems[1] = CustomItem.getCustomItemFromUUID(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).substring(6));
+                    customItems[1] = CustomItem.getCustomItemFromUUID(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).substring(7));
+                    Bukkit.broadcastMessage(customItems[1].getArmor() + "1");
                 }
             }
         }
@@ -79,7 +84,8 @@ public class AttackEvent implements Listener {
             if(Legs.getItemMeta().getLore() != null){
                 lore = Legs.getItemMeta().getLore();
                 if(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).startsWith("7UUID: ")){
-                    customItems[2] = CustomItem.getCustomItemFromUUID(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).substring(6));
+                    customItems[2] = CustomItem.getCustomItemFromUUID(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).substring(7));
+                    Bukkit.broadcastMessage(customItems[2].getArmor() + "2");
                 }
             }
         }
@@ -88,19 +94,25 @@ public class AttackEvent implements Listener {
             if(boots.getItemMeta().getLore() != null){
                 lore = boots.getItemMeta().getLore();
                 if(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).startsWith("7UUID: ")){
-                    customItems[3] = CustomItem.getCustomItemFromUUID(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).substring(6));
+                    customItems[3] = CustomItem.getCustomItemFromUUID(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).substring(7));
+                    Bukkit.broadcastMessage(customItems[3].getArmor() + "3");
                 }
             }
+        }
+        for(int i = 0; i < customItems.length; i++){
+            Bukkit.broadcastMessage(customItems[i].getArmor()+"");
         }
         return customItems;
     }
     private int getArmorFromArray(CustomItem[] customItems){
         int armor = 0;
         for(int i = 0; i < customItems.length; i++){
-            if(customItems[i] != null) {
-                armor = armor + customItems[i].getDamage();
-            }
+           // if(customItems[i] != null) {
+            Bukkit.broadcastMessage("getARFA:2 " +i +":" + customItems[i].getArmor());
+            armor = armor + customItems[i].getDamage();
+            //}
         }
+        Bukkit.broadcastMessage("armor" + armor);
         return armor;
     }
 
@@ -115,11 +127,7 @@ public class AttackEvent implements Listener {
             mainHand = player.getInventory().getItemInMainHand();
             if(mainHand.getItemMeta().getLore() != null){
                 lore = mainHand.getItemMeta().getLore();
-                Bukkit.broadcastMessage(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).substring(6));
-                Bukkit.broadcastMessage(CustomItem.unhideItemUUID(lore.get(lore.size()-1)));
                 if(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).startsWith("7UUID: ")){
-                    Bukkit.broadcastMessage(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).substring(6));
-                    Bukkit.broadcastMessage(CustomItem.unhideItemUUID(lore.get(lore.size()-1)));
                     customItems[0] = CustomItem.getCustomItemFromUUID(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).substring(7));
                 }
             }
@@ -134,23 +142,16 @@ public class AttackEvent implements Listener {
                 }
             }
         }
-        Bukkit.broadcastMessage("item1: " + customItems[0].getId().toString());
-        Bukkit.broadcastMessage("item2: " + customItems[1].getId().toString());
         return customItems;
     }
     private int getDamageFromArray(CustomItem[] customItems){
         int damage = 0;
-        Bukkit.broadcastMessage("getDmgFA: " + customItems[0].getId());
         //for (CustomItem customItem : customItems) {
-            Bukkit.broadcastMessage("getDmgFA:2 " + customItems[0].getId());
-        Bukkit.broadcastMessage("getDmgFA:2 " + customItems[0].getDamage());
         // damage = damage + customItem.getDamage();
         for(int i = 0; i < customItems.length; i++){
             Bukkit.broadcastMessage("getDmgFA:2 " +i +":" + customItems[0].getDamage());
             damage = damage + customItems[i].getDamage();
         }
-        Bukkit.broadcastMessage("getDmgFA:damage " +damage);
-        //}
         return damage;
     }
 

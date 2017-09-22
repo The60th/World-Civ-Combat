@@ -34,7 +34,7 @@ public class Gear {
         customTierOneHelm.shape(
                 "@@@",
                 "@ @",
-                "  ");
+                "   ");
         customTierOneHelm.setIngredient('@',Material.GLASS);
 
         Bukkit.getServer().addRecipe(customTierOneHelm);
@@ -63,8 +63,8 @@ public class Gear {
         customTierOneLeg = new ShapedRecipe(item);
         customTierOneLeg.shape(
                 "@@@",
-                "@ @",
-                "# @");
+                "@ @" ,
+                "@ @");
         customTierOneLeg.setIngredient('@',Material.GLASS);
 
         Bukkit.getServer().addRecipe(customTierOneLeg);
