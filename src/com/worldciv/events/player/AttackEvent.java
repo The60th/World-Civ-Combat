@@ -173,9 +173,7 @@ public class AttackEvent implements Listener {
             Bukkit.broadcastMessage("getDmgFA:2 " +i +":" + customItems[0].getDamage());
             try {
                 damage = damage + customItems[i].getDamage();
-            }catch(NullPointerException e){
-                
-            }
+            }catch(NullPointerException e){}
         }
         return damage;
     }
