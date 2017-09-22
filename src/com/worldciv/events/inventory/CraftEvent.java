@@ -1,9 +1,6 @@
 package com.worldciv.events.inventory;
 
-import com.worldciv.filesystem.CustomItem;
-import com.worldciv.filesystem.Gear;
-import com.worldciv.filesystem.Tier;
-import com.worldciv.filesystem.WeaponType;
+import com.worldciv.filesystem.*;
 import com.worldciv.the60th.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -22,12 +19,25 @@ public class CraftEvent implements Listener {
         Player clicked = (Player)event.getWhoClicked();
         if(clicked == null) return;
         String result = event.getRecipe().getResult().toString();
-        if(result.equals(Gear.newRecipe.getResult().toString())){
-            event.setCurrentItem(CustomItem.getItemFromCustomItem(Main.fileSystem.createItem((new ItemStack(Material.WOOD_SWORD,1)), Tier.I, WeaponType.sword )));
-        }
-        else if(result.equals(Gear.customTierOneSword.getResult().toString())){
+        if(result.equals(Gear.customTierOneSword.getResult().toString())){
             event.setCurrentItem(CustomItem.getItemFromCustomItem
                     (Main.fileSystem.createItem((new ItemStack(Material.IRON_SWORD,1)), Tier.I, WeaponType.sword )));
+        }
+        else if(result.equals(Gear.customTierOneHelm.getResult().toString())){
+            event.setCurrentItem(CustomItem.getItemFromCustomItem
+                    (Main.fileSystem.createItem((new ItemStack(Material.IRON_HELMET,1)), Tier.I, ArmorType.chestplate )));
+        }
+        else if(result.equals(Gear.customTierOneChest.getResult().toString())){
+            event.setCurrentItem(CustomItem.getItemFromCustomItem
+                    (Main.fileSystem.createItem((new ItemStack(Material.IRON_CHESTPLATE,1)), Tier.I, ArmorType.pants )));
+        }
+        else if(result.equals(Gear.customTierOneLeg.getResult().toString())){
+            event.setCurrentItem(CustomItem.getItemFromCustomItem
+                    (Main.fileSystem.createItem((new ItemStack(Material.IRON_LEGGINGS,1)), Tier.I, ArmorType.boots )));
+        }
+        else if(result.equals(Gear.customTierOneBoots.getResult().toString())){
+            event.setCurrentItem(CustomItem.getItemFromCustomItem
+                    (Main.fileSystem.createItem((new ItemStack(Material.IRON_BOOTS,1)), Tier.I, ArmorType.boots )));
         }
 
 

@@ -60,7 +60,7 @@ public class AttackEvent implements Listener {
             helm = player.getInventory().getHelmet();
             if(helm.getItemMeta().getLore() != null){
                 lore = helm.getItemMeta().getLore();
-                if(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).startsWith("UUID: ")){
+                if(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).startsWith("7UUID: ")){
                     customItems[0] = CustomItem.getCustomItemFromUUID(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).substring(6));
                 }
             }
@@ -69,7 +69,7 @@ public class AttackEvent implements Listener {
             Chestplate = player.getInventory().getChestplate();
             if(Chestplate.getItemMeta().getLore() != null){
                 lore = Chestplate.getItemMeta().getLore();
-                if(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).startsWith("UUID: ")){
+                if(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).startsWith("7UUID: ")){
                     customItems[1] = CustomItem.getCustomItemFromUUID(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).substring(6));
                 }
             }
@@ -78,7 +78,7 @@ public class AttackEvent implements Listener {
             Legs = player.getInventory().getLeggings();
             if(Legs.getItemMeta().getLore() != null){
                 lore = Legs.getItemMeta().getLore();
-                if(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).startsWith("UUID: ")){
+                if(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).startsWith("7UUID: ")){
                     customItems[2] = CustomItem.getCustomItemFromUUID(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).substring(6));
                 }
             }
@@ -87,7 +87,7 @@ public class AttackEvent implements Listener {
             boots = player.getInventory().getBoots();
             if(boots.getItemMeta().getLore() != null){
                 lore = boots.getItemMeta().getLore();
-                if(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).startsWith("UUID: ")){
+                if(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).startsWith("7UUID: ")){
                     customItems[3] = CustomItem.getCustomItemFromUUID(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).substring(6));
                 }
             }
@@ -96,14 +96,16 @@ public class AttackEvent implements Listener {
     }
     private int getArmorFromArray(CustomItem[] customItems){
         int armor = 0;
-        for (CustomItem customItem : customItems) {
-            armor = armor + customItem.getArmor();
+        for(int i = 0; i < customItems.length; i++){
+            if(customItems[i] != null) {
+                armor = armor + customItems[i].getDamage();
+            }
         }
         return armor;
     }
 
     private CustomItem[] getDamageItems(Player player){
-        CustomItem[] customItems = new CustomItem[4];
+        CustomItem[] customItems = new CustomItem[2];
         List<String> lore;
         ItemStack mainHand;
         ItemStack offHand;
@@ -113,8 +115,12 @@ public class AttackEvent implements Listener {
             mainHand = player.getInventory().getItemInMainHand();
             if(mainHand.getItemMeta().getLore() != null){
                 lore = mainHand.getItemMeta().getLore();
-                if(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).startsWith("UUID: ")){
-                    customItems[0] = CustomItem.getCustomItemFromUUID(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).substring(6));
+                Bukkit.broadcastMessage(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).substring(6));
+                Bukkit.broadcastMessage(CustomItem.unhideItemUUID(lore.get(lore.size()-1)));
+                if(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).startsWith("7UUID: ")){
+                    Bukkit.broadcastMessage(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).substring(6));
+                    Bukkit.broadcastMessage(CustomItem.unhideItemUUID(lore.get(lore.size()-1)));
+                    customItems[0] = CustomItem.getCustomItemFromUUID(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).substring(7));
                 }
             }
         }
@@ -123,19 +129,28 @@ public class AttackEvent implements Listener {
             offHand = player.getInventory().getItemInOffHand();
             if(offHand.getItemMeta().getLore() != null){
                 lore = offHand.getItemMeta().getLore();
-                if(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).startsWith("UUID: ")){
-                    customItems[0] = CustomItem.getCustomItemFromUUID(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).substring(6));
+                if(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).startsWith("7UUID: ")){
+                    customItems[1] = CustomItem.getCustomItemFromUUID(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).substring(7));
                 }
             }
         }
-
+        Bukkit.broadcastMessage("item1: " + customItems[0].getId().toString());
+        Bukkit.broadcastMessage("item2: " + customItems[1].getId().toString());
         return customItems;
     }
     private int getDamageFromArray(CustomItem[] customItems){
         int damage = 0;
-        for (CustomItem customItem : customItems) {
-            damage = damage + customItem.getDamage();
+        Bukkit.broadcastMessage("getDmgFA: " + customItems[0].getId());
+        //for (CustomItem customItem : customItems) {
+            Bukkit.broadcastMessage("getDmgFA:2 " + customItems[0].getId());
+        Bukkit.broadcastMessage("getDmgFA:2 " + customItems[0].getDamage());
+        // damage = damage + customItem.getDamage();
+        for(int i = 0; i < customItems.length; i++){
+            Bukkit.broadcastMessage("getDmgFA:2 " +i +":" + customItems[0].getDamage());
+            damage = damage + customItems[i].getDamage();
         }
+        Bukkit.broadcastMessage("getDmgFA:damage " +damage);
+        //}
         return damage;
     }
 

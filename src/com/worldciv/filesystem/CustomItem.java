@@ -33,14 +33,14 @@ public class CustomItem extends  FileSystem{
 
     }
     public CustomItem(ItemStack itemStack, String name, String id, int damage, int armor, Rarity rarity, Tier tier){
-        setItemStack(itemStack);
-        setName(name);
-        setId(id);
-        setDamage(damage);
-        setArmor(armor);
-        setRarity(rarity);
-        setTier(tier);
-        setOther(-1);
+        this.setItemStack(itemStack);
+        this.setName(name);
+        this.setId(id);
+        this.setDamage(damage);
+        this.setArmor(armor);
+        this.setRarity(rarity);
+        this.setTier(tier);
+        this.setOther(-1);
     }
 
 
@@ -53,24 +53,47 @@ public class CustomItem extends  FileSystem{
         meta.setLore(Arrays.asList(ChatColor.GRAY+"Item Tier: " + ChatColor.WHITE + customItem.tier,
                 ChatColor.GRAY+"Item Rarity: " +ItemGenerator.getColorFromRarity(customItem.getRarity())+ customItem.rarity ,
                 ChatColor.GRAY+"Damage: " + ChatColor.WHITE + customItem.damage, ChatColor.GRAY+"Armor: " + ChatColor.WHITE + customItem.getArmor(),
-                ChatColor.GRAY+"UID: " + unhideItemUUID(customItem.getId())));
+                ChatColor.GRAY+"UUID: " + unhideItemUUID(customItem.getId())));
         item.setItemMeta(meta);
         return item;
     }
     public static CustomItem getCustomItemFromUUID(String UUID){
+        File dir = new File(Bukkit.getPluginManager().getPlugin("World_Civ_Combat").getDataFolder()+"/Custom_Items");
+        if(dir.exists()) {
+            Bukkit.broadcastMessage("da fuk1: ");
+            Bukkit.broadcastMessage("da fuk1: " + UUID);
+            File file = new File(dir,UUID+".yml");
+            if(file.exists()){
+                Bukkit.broadcastMessage("da fuk2: " );
+            }
+        }
         YamlConfiguration yaml;
         File file = new File(Bukkit.getPluginManager().getPlugin("World_Civ_Combat").getDataFolder()+"/Custom_Items/"+UUID+".yml");
         yaml = YamlConfiguration.loadConfiguration(file);
+        Bukkit.broadcastMessage("Not clear: " + yaml);
+
+        Bukkit.broadcastMessage(file.toString());
+        Bukkit.broadcastMessage(file.getName());
+        Bukkit.broadcastMessage(file.getParent());
+        Bukkit.broadcastMessage(file.getPath());
+        Bukkit.broadcastMessage("clear");
+
+
+        Bukkit.broadcastMessage("?: " + yaml.getInt("Item-Data.Armor"));
+        Bukkit.broadcastMessage("?: " + yaml.getInt("Item-Data.Damage"));
+        Bukkit.broadcastMessage("?: " + yaml.getString("Item-Data.UUID"));
+
         return createItemFromYAML(yaml);
     }
 
     private static CustomItem createItemFromYAML (YamlConfiguration yaml){
-        return new CustomItem(yaml.getItemStack("Item-Data.ItemStack"),
+        CustomItem item = new CustomItem(yaml.getItemStack("Item-Data.ItemStack"),
                                 yaml.getString("Item-Data.Name"),yaml.getString("Item-Data.UUID")
                 ,yaml.getInt("Item-Data.Damage"),yaml.getInt("Item-Data.Armor"),
-                getRarityFromString(yaml.getString("Item-Data.Rarity")),getTierFromString(yaml.getString("Item-Data.Tier")));
+                /*getRarityFromString(yaml.getString("Item-Data.Rarity"))*/Rarity.Common,/*getTierFromString(yaml.getString("Item-Data.Tier"))*/Tier.I);
         //ItemStack itemStack, String name, String id, int damage, int armor, Rarity rarity, Tier tier
-
+        Bukkit.broadcastMessage("Name " + item.getName());
+        return item;
     }
     private static Rarity getRarityFromString(String string){return Rarity.valueOf(string);}
     private static Tier getTierFromString(String string){return Tier.valueOf(string);}

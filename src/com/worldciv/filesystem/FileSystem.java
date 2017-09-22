@@ -78,14 +78,22 @@ public class FileSystem {
                 YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
                 yaml = createFileSectionsFromFile(yaml);
                 yaml = writeDataToFile(yaml,item);
+                Bukkit.broadcastMessage("No2t clear: " + yaml.toString());
+
                 try {
                     yaml.save(file);
+                    Bukkit.broadcastMessage("No2t clear: " + yaml.toString());
+                    Bukkit.broadcastMessage("No2t clear: " + yaml.getInt("Item-Data.Armor"));
+                    Bukkit.broadcastMessage("No2t clear: " + yaml.getString("Item-Data.Name"));
+
+
                     return true;
                 } catch (IOException e) {
                     Main.logger.info("Failed error has occurred when saving an item. Item UUID: [" + item.getId() + "}");
                     e.printStackTrace();
                     return false;
                 }
+
             }
         }else{
             Main.logger.info("Failed error has occurred when saving an item. Item UUID: [" + item.getId() + "}");
@@ -99,9 +107,9 @@ public class FileSystem {
         return customItem;
     }
     public CustomItem createItem(ItemStack itemType, Tier tier, ArmorType armorType){
-
-
-        return null;
+        CustomItem customItem = ItemGenerator.generateItem(itemType,tier,armorType);
+        saveItem(customItem);
+        return customItem;
     }
     private YamlConfiguration createFileSectionsFromFile(YamlConfiguration yamlConfiguration){
         yamlConfiguration.createSection("Item-Data");
@@ -122,8 +130,8 @@ public class FileSystem {
         if(item.getName()!=null)yamlConfiguration.set("Item-Data.Name",item.getName());
         if(item.getDamage()!=-1)yamlConfiguration.set("Item-Data.Damage",item.getDamage());
         if(item.getArmor()!=-1)yamlConfiguration.set("Item-Data.Armor",item.getArmor());
-        if(item.getRarity()!=null)yamlConfiguration.set("Item-Data.Rarity",item.getRarity());
-        if(item.getTier()!=null)yamlConfiguration.set("Item-Data.Tier",item.getTier());
+        if(item.getRarity()!=null)yamlConfiguration.set("Item-Data.Rarity",item.getRarity().toString());
+        if(item.getTier()!=null)yamlConfiguration.set("Item-Data.Tier",item.getTier().toString());
         if(item.getId()!=null)yamlConfiguration.set("Item-Data.ItemType",-1);
         if(item.getOther()!=-1)yamlConfiguration.set("Item-Data.Lore",item.getOther());
         if(item.getOther()!=-1)yamlConfiguration.set("Item-Data.Other",item.getOther());

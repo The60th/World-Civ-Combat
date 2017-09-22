@@ -39,10 +39,11 @@ public class Main extends JavaPlugin implements Listener{
                 + pdfFile.getVersion());
         registerEvents();
 
-        Gear.woodswordrecipe();
-        Gear.basiccplaterecipe();
-        Gear.newRecipe();
         Gear.customTierOneSword();
+        Gear.customTierOneHelm();
+        Gear.customTierOneChest();
+        Gear.customTierOneLegs();
+        Gear.customTierOneBoots();
     }
 
     public void onDisable() {
