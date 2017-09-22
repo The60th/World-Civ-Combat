@@ -6,6 +6,7 @@ import net.minecraft.server.v1_11_R1.EntityPlayer;
 import net.minecraft.server.v1_11_R1.Item;
 import org.bukkit.Bukkit;
 import org.bukkit.EntityEffect;
+import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_11_R1.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -41,13 +42,20 @@ public class AttackEvent implements Listener {
         Player pDefender = (Player) defender;
         double customDamage = getDamageFromArray(getDamageItems(pAttacker));
         double armor = getArmorFromArray(getArmorItems(pDefender));
+        double damageScaler = getDamageScale(pAttacker,event.getDamage());
+        Bukkit.broadcastMessage("Cause: " + event.getCause());
 
-        double preDmgDealt = event.getDamage(); //Damage pre mod.
-        double finalDamage = event.getFinalDamage(); //Is post mod IE armor / res.
         //Calculate swing timer shit here.
+        customDamage = customDamage*damageScaler;
         Bukkit.broadcastMessage(customDamage + " damage dealt--Armor used: " + armor);
-        event.setDamage(0); //Temp
-        pDefender.setHealth(pDefender.getHealth()-(customDamage-armor)); //Cant set neg major bug
+        if(customDamage - armor <= 0){
+            //Damage did not overflow armor values.
+            //This is were hit tracking will be done later on.
+            pDefender.setHealth(pDefender.getHealth());
+        }else{
+            pDefender.setHealth(pDefender.getHealth()-(customDamage-armor)); //Cant set neg major bug
+        }
+        event.setDamage(0);
     }
 
     private CustomItem[] getArmorItems(Player player){
@@ -57,12 +65,15 @@ public class AttackEvent implements Listener {
         ItemStack boots;
         List<String> lore;
         CustomItem[] customItems = new CustomItem[4];
-        
+
         if(player.getInventory().getHelmet() != null){
             helm = player.getInventory().getHelmet();
+            Bukkit.broadcastMessage("Passed not null 1");
             if(helm.getItemMeta().getLore() != null){
                 lore = helm.getItemMeta().getLore();
+                Bukkit.broadcastMessage("Passed not null 2");
                 if(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).startsWith("7UUID: ")){
+                    Bukkit.broadcastMessage("Passed not null 3");
                     Bukkit.broadcastMessage(lore.get(lore.size()-1).substring(7));
                     customItems[0] = CustomItem.getCustomItemFromUUID(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).substring(7));
                     Bukkit.broadcastMessage(customItems[0].getArmor() + "0");
@@ -70,37 +81,43 @@ public class AttackEvent implements Listener {
             }
         }
         if(player.getInventory().getChestplate() != null){
+            Bukkit.broadcastMessage("Passed not null 4");
             Chestplate = player.getInventory().getChestplate();
             if(Chestplate.getItemMeta().getLore() != null){
+                Bukkit.broadcastMessage("Passed not null 5");
                 lore = Chestplate.getItemMeta().getLore();
                 if(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).startsWith("7UUID: ")){
+                    Bukkit.broadcastMessage("Passed not null 6");
                     customItems[1] = CustomItem.getCustomItemFromUUID(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).substring(7));
                     Bukkit.broadcastMessage(customItems[1].getArmor() + "1");
                 }
             }
         }
         if(player.getInventory().getLeggings() != null){
+            Bukkit.broadcastMessage("Passed not null 7");
             Legs = player.getInventory().getLeggings();
             if(Legs.getItemMeta().getLore() != null){
+                Bukkit.broadcastMessage("Passed not null 8");
                 lore = Legs.getItemMeta().getLore();
                 if(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).startsWith("7UUID: ")){
+                    Bukkit.broadcastMessage("Passed not null 9");
                     customItems[2] = CustomItem.getCustomItemFromUUID(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).substring(7));
                     Bukkit.broadcastMessage(customItems[2].getArmor() + "2");
                 }
             }
         }
         if(player.getInventory().getBoots() != null){
+            Bukkit.broadcastMessage("Passed not null 10");
             boots = player.getInventory().getBoots();
             if(boots.getItemMeta().getLore() != null){
+                Bukkit.broadcastMessage("Passed not null 11");
                 lore = boots.getItemMeta().getLore();
                 if(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).startsWith("7UUID: ")){
+                    Bukkit.broadcastMessage("Passed not null 12");
                     customItems[3] = CustomItem.getCustomItemFromUUID(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).substring(7));
                     Bukkit.broadcastMessage(customItems[3].getArmor() + "3");
                 }
             }
-        }
-        for(int i = 0; i < customItems.length; i++){
-            Bukkit.broadcastMessage(customItems[i].getArmor()+"");
         }
         return customItems;
     }
@@ -108,8 +125,12 @@ public class AttackEvent implements Listener {
         int armor = 0;
         for(int i = 0; i < customItems.length; i++){
            // if(customItems[i] != null) {
-            Bukkit.broadcastMessage("getARFA:2 " +i +":" + customItems[i].getArmor());
-            armor = armor + customItems[i].getDamage();
+            //Bukkit.broadcastMessage("getARFA: " +i +":" + customItems[i].getArmor());
+            try {
+                armor = armor + customItems[i].getArmor();
+            }catch (NullPointerException e){
+
+            }
             //}
         }
         Bukkit.broadcastMessage("armor" + armor);
@@ -150,11 +171,48 @@ public class AttackEvent implements Listener {
         // damage = damage + customItem.getDamage();
         for(int i = 0; i < customItems.length; i++){
             Bukkit.broadcastMessage("getDmgFA:2 " +i +":" + customItems[0].getDamage());
-            damage = damage + customItems[i].getDamage();
+            try {
+                damage = damage + customItems[i].getDamage();
+            }catch(NullPointerException e){
+                
+            }
         }
         return damage;
     }
 
+    private double getDamageScale(Player player, Double eventDamage){
+        ItemStack item = player.getInventory().getItemInMainHand();
+        Material itemM = item.getType();
+        double damage;
+        if(itemM == Material.WOOD_SWORD){damage=4;}
+        else if(itemM == Material.STONE_SWORD){damage =5;}
+        else if(itemM == Material.IRON_SWORD){damage =6;}
+        else if(itemM == Material.DIAMOND_SWORD){damage =7;}
+        else if(itemM == Material.GOLD_SWORD){damage =4;}
+
+        else if(itemM == Material.WOOD_SPADE){damage =2;}
+        else if(itemM == Material.STONE_SPADE){damage =3;}
+        else if(itemM == Material.IRON_SPADE){damage =4;}
+        else if(itemM == Material.DIAMOND_SPADE){damage =5;}
+        else if(itemM == Material.GOLD_SPADE){damage =2;}
+
+        else if(itemM == Material.WOOD_PICKAXE){damage =2;}
+        else if(itemM == Material.STONE_PICKAXE){damage =3;}
+        else if(itemM == Material.IRON_PICKAXE){damage =4;}
+        else if(itemM == Material.DIAMOND_PICKAXE){damage =5;}
+        else if(itemM == Material.GOLD_PICKAXE){damage =2;}
+
+        else if(itemM == Material.WOOD_AXE){damage =7;}
+        else if(itemM == Material.STONE_AXE){damage =9;}
+        else if(itemM == Material.IRON_AXE){damage =9;}
+        else if(itemM == Material.DIAMOND_AXE){damage =9;}
+        else if(itemM == Material.GOLD_AXE){damage =7;}
+        else{damage =1;}
+        Bukkit.broadcastMessage("Should of dealt: " + damage + " Did deal: " + eventDamage);
+        damage = eventDamage/damage;
+        Bukkit.broadcastMessage("Diff mod is " + damage);
+        return damage;
+    }
 }
 
 
