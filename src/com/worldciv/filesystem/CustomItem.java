@@ -54,6 +54,7 @@ public class CustomItem extends  FileSystem{
                 ChatColor.GRAY+"Item Rarity: " +ItemGenerator.getColorFromRarity(customItem.getRarity())+ customItem.rarity ,
                 ChatColor.GRAY+"Damage: " + ChatColor.WHITE + customItem.damage, ChatColor.GRAY+"Armor: " + ChatColor.WHITE + customItem.getArmor(),
                 ChatColor.GRAY+"UUID: " + unhideItemUUID(customItem.getId())));
+        meta.setUnbreakable(true);
         item.setItemMeta(meta);
         return item;
     }

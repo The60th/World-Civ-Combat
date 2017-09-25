@@ -16,12 +16,26 @@ import java.util.Arrays;
 
 public class Gear {
 
-    public static int x;
+    //Swords need 3
+    //Helms 2
+    //Boots 2
+    //Legs 1
+    //Chests 1
+    //Axes 2
     public static ShapedRecipe customTierOneSword;
+    public static ShapedRecipe customTierOneSword2;
+    public static ShapedRecipe customTierOneSword3;
+
+
     public static ShapedRecipe customTierOneHelm;
+    public static ShapedRecipe customTierOneHelm2;
+
     public static ShapedRecipe customTierOneChest;
+
     public static ShapedRecipe customTierOneLeg;
+
     public static ShapedRecipe customTierOneBoots;
+    public static ShapedRecipe customTierOneBoots2;
 
 
     public static void customTierOneHelm(){
@@ -36,8 +50,15 @@ public class Gear {
                 "@ @",
                 "   ");
         customTierOneHelm.setIngredient('@',Material.GLASS);
-
         Bukkit.getServer().addRecipe(customTierOneHelm);
+
+        customTierOneHelm2 = new ShapedRecipe(item);
+        customTierOneHelm2.shape(
+                "   ",
+                "@@@",
+                "@ @");
+        customTierOneHelm2.setIngredient('@',Material.GLASS);
+        Bukkit.getServer().addRecipe(customTierOneHelm2);
     }
     public static void customTierOneChest(){
         //ItemStack item = CustomItem.getItemFromCustomItem(Main.fileSystem.createItem((new ItemStack(Material.WOOD_SWORD,1)),Tier.five,WeaponType.sword ));
@@ -75,14 +96,23 @@ public class Gear {
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(ChatColor.GRAY + "Tier One Boots");
         item.setItemMeta(meta);
+
         customTierOneBoots = new ShapedRecipe(item);
         customTierOneBoots.shape(
                 "   ",
                 "@ @",
                 "@ @");
         customTierOneBoots.setIngredient('@',Material.GLASS);
-
         Bukkit.getServer().addRecipe(customTierOneBoots);
+
+        customTierOneBoots2 = new ShapedRecipe(item);
+        customTierOneBoots2.shape(
+                "@ @",
+                "@ @",
+                "   "
+        );
+        customTierOneBoots2.setIngredient('@',Material.GLASS);
+        Bukkit.getServer().addRecipe(customTierOneBoots2);
     }
     public static void customTierOneSword(){
         //ItemStack item = CustomItem.getItemFromCustomItem(Main.fileSystem.createItem((new ItemStack(Material.WOOD_SWORD,1)),Tier.five,WeaponType.sword ));
@@ -90,6 +120,7 @@ public class Gear {
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(ChatColor.GRAY + "Tier One Sword");
         item.setItemMeta(meta);
+
         customTierOneSword = new ShapedRecipe(item);
         customTierOneSword.shape(
                 "@  ",
@@ -97,8 +128,25 @@ public class Gear {
                 "#  ");
         customTierOneSword.setIngredient('@',Material.GLASS);
         customTierOneSword.setIngredient('#',Material.STICK);
-
         Bukkit.getServer().addRecipe(customTierOneSword);
+
+        customTierOneSword2 = new ShapedRecipe(item);
+        customTierOneSword2.shape(
+                " @",
+                " @",
+                " #");
+        customTierOneSword2.setIngredient('@',Material.GLASS);
+        customTierOneSword2.setIngredient('#',Material.STICK);
+        Bukkit.getServer().addRecipe(customTierOneSword2);
+
+        customTierOneSword3 = new ShapedRecipe(item);
+        customTierOneSword3.shape(
+                " @ ",
+                " @ ",
+                " # ");
+        customTierOneSword3.setIngredient('@',Material.GLASS);
+        customTierOneSword3.setIngredient('#',Material.STICK);
+        Bukkit.getServer().addRecipe(customTierOneSword3);
     }
 }
 

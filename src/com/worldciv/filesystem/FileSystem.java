@@ -64,7 +64,7 @@ public class FileSystem {
         else{
             this.exists = true;
         }
-        Main.logger.info("Loading UID system.");
+        //Main.logger.info("Loading UID system.");
 
     }
     public boolean saveItem(CustomItem item){

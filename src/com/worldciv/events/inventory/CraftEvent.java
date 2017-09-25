@@ -19,11 +19,13 @@ public class CraftEvent implements Listener {
         Player clicked = (Player)event.getWhoClicked();
         if(clicked == null) return;
         String result = event.getRecipe().getResult().toString();
-        if(result.equals(Gear.customTierOneSword.getResult().toString())){
+        if(result.equals(Gear.customTierOneSword.getResult().toString()) ||
+                result.equals(Gear.customTierOneSword2.getResult().toString()) ||
+                result.equals(Gear.customTierOneSword3.getResult().toString())){
             event.setCurrentItem(CustomItem.getItemFromCustomItem
                     (Main.fileSystem.createItem((new ItemStack(Material.IRON_SWORD,1)), Tier.I, WeaponType.sword )));
         }
-        else if(result.equals(Gear.customTierOneHelm.getResult().toString())){
+        else if(result.equals(Gear.customTierOneHelm.getResult().toString()) || result.equals(Gear.customTierOneHelm2.getResult().toString())){
             event.setCurrentItem(CustomItem.getItemFromCustomItem
                     (Main.fileSystem.createItem((new ItemStack(Material.IRON_HELMET,1)), Tier.I, ArmorType.chestplate )));
         }
@@ -35,7 +37,7 @@ public class CraftEvent implements Listener {
             event.setCurrentItem(CustomItem.getItemFromCustomItem
                     (Main.fileSystem.createItem((new ItemStack(Material.IRON_LEGGINGS,1)), Tier.I, ArmorType.boots )));
         }
-        else if(result.equals(Gear.customTierOneBoots.getResult().toString())){
+        else if(result.equals(Gear.customTierOneBoots.getResult().toString()) || result.equals(Gear.customTierOneBoots2.getResult().toString())){
             event.setCurrentItem(CustomItem.getItemFromCustomItem
                     (Main.fileSystem.createItem((new ItemStack(Material.IRON_BOOTS,1)), Tier.I, ArmorType.boots )));
         }
