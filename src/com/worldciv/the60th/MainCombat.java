@@ -25,11 +25,13 @@ public class MainCombat extends JavaPlugin implements Listener{
 
     FileConfiguration config = getConfig();
     public static Plugin plugin;
+    public static JavaPlugin javaPlugin;
     public static FileSystem fileSystem;
     public static Logger logger;
 
     public void onEnable() {
         plugin = this;
+        javaPlugin = this;
         logger = Logger.getLogger("Minecraft");
         fileSystem = new FileSystem();
         PluginDescriptionFile pdfFile = this.getDescription();

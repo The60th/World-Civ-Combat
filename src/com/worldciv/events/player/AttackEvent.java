@@ -2,6 +2,8 @@ package com.worldciv.events.player;
 
 import com.worldciv.filesystem.CustomItem;
 import com.worldciv.the60th.MainCombat;
+import com.worldciv.utils.ExampleSelfCancelingTask;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -9,6 +11,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitTask;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +20,7 @@ import java.util.List;
 //Based off of old new combat stats plugin
 public class AttackEvent implements Listener {
     private static final int PLAYER_DEFAULT_ARMOR = 1;
-    private static HashMap<Player, Double> defenderArmorTracker = new HashMap<>();
+    public static HashMap<Player, Double> defenderArmorTracker = new HashMap<>();
 
     @EventHandler
     public void onEntityDamageEvent(EntityDamageByEntityEvent event) {
@@ -61,6 +65,7 @@ public class AttackEvent implements Listener {
                 }
             }else{
                 defenderArmorTracker.put(pDefender,damagePostScale);
+                BukkitTask task = new ExampleSelfCancelingTask(MainCombat.javaPlugin, 30, pDefender).runTaskTimer(MainCombat.javaPlugin, 0, 20);
                 //Damage did not overflow armor values.
                 //This is were hit tracking will be done later on.
                 pDefender.setHealth(pDefender.getHealth());
@@ -255,6 +260,10 @@ public class AttackEvent implements Listener {
 
 
     }
+
+
+
+
 }
 
 
