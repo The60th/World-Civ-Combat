@@ -1,10 +1,8 @@
 package com.worldciv.filesystem;
 
-import com.sun.org.apache.bcel.internal.generic.Select;
-import com.worldciv.the60th.Main;
+import com.worldciv.the60th.MainCombat;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.WeatherType;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 
@@ -19,7 +17,7 @@ public class FileSystem {
         if(!dir.exists()) {
             dir.mkdir();
             Bukkit.broadcastMessage(ChatColor.DARK_RED + "" + ChatColor.BOLD + "Warning!");
-            Main.logger.info(("Creating new UID System, please check all plugins if this is not wanted!"));
+            MainCombat.logger.info(("Creating new UID System, please check all plugins if this is not wanted!"));
             File file = new File(dir, "Custom_Items_UID_System.yml");
             if (!(file.exists())) {
                 Bukkit.broadcastMessage(ChatColor.DARK_RED + "" + ChatColor.BOLD + "Warning!");
@@ -64,7 +62,7 @@ public class FileSystem {
         else{
             this.exists = true;
         }
-        //Main.logger.info("Loading UID system.");
+        //MainCombat.logger.info("Loading UID system.");
 
     }
     public boolean saveItem(CustomItem item){
@@ -72,7 +70,7 @@ public class FileSystem {
         if(dir.exists()) {
             File file = new File(dir,CustomItem.unhideItemUUID(item.getId())+".yml");
             if(file.exists()){
-                Main.logger.info("Failed error has occurred when saving an item. Item UUID: [" + item.getId() + "}");
+                MainCombat.logger.info("Failed error has occurred when saving an item. Item UUID: [" + item.getId() + "}");
                 return false;
             }else{
                 YamlConfiguration yaml = YamlConfiguration.loadConfiguration(file);
@@ -85,14 +83,14 @@ public class FileSystem {
 
                     return true;
                 } catch (IOException e) {
-                    Main.logger.info("Failed error has occurred when saving an item. Item UUID: [" + item.getId() + "}");
+                    MainCombat.logger.info("Failed error has occurred when saving an item. Item UUID: [" + item.getId() + "}");
                     e.printStackTrace();
                     return false;
                 }
 
             }
         }else{
-            Main.logger.info("Failed error has occurred when saving an item. Item UUID: [" + item.getId() + "}");
+            MainCombat.logger.info("Failed error has occurred when saving an item. Item UUID: [" + item.getId() + "}");
             return false;
         }
 

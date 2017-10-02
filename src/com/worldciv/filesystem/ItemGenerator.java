@@ -1,6 +1,6 @@
 package com.worldciv.filesystem;
 
-import com.worldciv.the60th.Main;
+import com.worldciv.the60th.MainCombat;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 
@@ -43,9 +43,9 @@ public class ItemGenerator {
         int stat = calculateStat(rarity,tier);
         String name = "This is a dummy name";
         String id = CustomItem.unhideItemUUID(createUUID());
-        Main.logger.info(("Custom ID: " + id));
+        MainCombat.logger.info(("Custom ID: " + id));
         id = convertToInvisibleString(id);
-        Main.logger.info(("Custom ID: " + id));
+        MainCombat.logger.info(("Custom ID: " + id));
         return new CustomItem(itemStack,name,id,stat,0,rarity,tier);
     }
     public static CustomItem generateItem(ItemStack itemStack, Tier tier, ArmorType armorType){
@@ -69,7 +69,7 @@ public class ItemGenerator {
         else if(isBetween(x,61,80)){return Rarity.Epic;}
         else if(isBetween(x,81,100)){return Rarity.Legendary;}
         else{
-            Main.logger.info(("Rarity generation error has happened."));
+            MainCombat.logger.info(("Rarity generation error has happened."));
             return Rarity.Common;
         }
     }

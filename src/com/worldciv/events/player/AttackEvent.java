@@ -1,35 +1,23 @@
 package com.worldciv.events.player;
 
 import com.worldciv.filesystem.CustomItem;
-import com.worldciv.the60th.Main;
-import net.minecraft.server.v1_11_R1.EntityPlayer;
-import net.minecraft.server.v1_11_R1.Item;
-import org.bukkit.Bukkit;
-import org.bukkit.EntityEffect;
+import com.worldciv.the60th.MainCombat;
 import org.bukkit.Material;
-import org.bukkit.craftbukkit.v1_11_R1.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.HashMap;
 import java.util.List;
 
 //Based off of old new combat stats plugin
 public class AttackEvent implements Listener {
     private static final int PLAYER_DEFAULT_ARMOR = 1;
-    @EventHandler
-    public void onPlayerInteract(PlayerInteractEvent event){
-        float t = ((EntityPlayer)(((CraftPlayer)event.getPlayer()).getHandle())).o(1);
-        //System.out.print("Interact timer value " + t);
-    }
+    private static HashMap<Player, Double> defenderArmorTracker = new HashMap<>();
+
     @EventHandler
     public void onEntityDamageEvent(EntityDamageByEntityEvent event) {
 
@@ -52,10 +40,32 @@ public class AttackEvent implements Listener {
         double damagePostArmor= damagePostScale-armor;
         //Bukkit.broadcastMessage(customDamage + " damage dealt--Armor used: " + armor);
         if(damagePostArmor <= 0){
-            //Damage did not overflow armor values.
-            //This is were hit tracking will be done later on.
-            pDefender.setHealth(pDefender.getHealth());
-            event.setDamage(0);
+            if(defenderArmorTracker.containsKey(pDefender)){
+                damagePostArmor = damagePostScale+defenderArmorTracker.get(pDefender);
+                defenderArmorTracker.remove(pDefender);
+                if(pDefender.getHealth()-damagePostArmor < 0){
+                    //Lets the player die normally.
+                    event.setDamage(999); //Make sure the player dies
+                    return;
+                }
+                else {
+                    try {
+                        pDefender.setHealth(pDefender.getHealth() - (damagePostArmor)); //Cant set neg major bug
+                        event.setDamage(0);
+                        return;
+                    }catch(IllegalArgumentException e){
+                        event.setDamage(999);
+                        return;
+                        //Catch the negative bug we were running into and let the player die normally.
+                    }
+                }
+            }else{
+                defenderArmorTracker.put(pDefender,damagePostScale);
+                //Damage did not overflow armor values.
+                //This is were hit tracking will be done later on.
+                pDefender.setHealth(pDefender.getHealth());
+                event.setDamage(0);
+            }
         }else{
             if(pDefender.getHealth()-damagePostArmor < 0){
                 //Lets the player die normally.
@@ -71,7 +81,7 @@ public class AttackEvent implements Listener {
                 }
             }
         }
-        Main.logger.info(pAttacker.getDisplayName() + " just attacked " + pDefender.getDisplayName() + " dealing " + customDamage
+        MainCombat.logger.info(pAttacker.getDisplayName() + " just attacked " + pDefender.getDisplayName() + " dealing " + customDamage
         + " pre armor and scale " + damagePostScale + " damage after scale " + damagePostArmor + " damage after armor. This leaves the defender at "
         + (pDefender.getHealth()) + " health. The raw damage of the attack was " + rawdamage + " the scale was " + damageScaler +
         "\n ****************** " + "\n");
@@ -239,6 +249,12 @@ public class AttackEvent implements Listener {
        // Bukkit.broadcastMessage("Diff mod is " + damage);
         return damage;
     }
+
+
+    private void damageTracker(){
+
+
+    }
 }
 
 
@@ -257,7 +273,7 @@ public class AttackEvent implements Listener {
                 EntityPlayer ep = ((CraftPlayer)player).getHandle();
                player.sendMessage("o(0) == "+ep.o(1));
             }
-        }}.runTaskTimer(Main.getPlugin(), 0, 1);*/
+        }}.runTaskTimer(MainCombat.getPlugin(), 0, 1);*/
 
 
         /* OOO // Flow

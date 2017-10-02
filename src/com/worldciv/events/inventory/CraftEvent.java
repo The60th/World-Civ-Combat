@@ -1,8 +1,7 @@
 package com.worldciv.events.inventory;
 
 import com.worldciv.filesystem.*;
-import com.worldciv.the60th.Main;
-import org.bukkit.Bukkit;
+import com.worldciv.the60th.MainCombat;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -23,23 +22,23 @@ public class CraftEvent implements Listener {
                 result.equals(Gear.customTierOneSword2.getResult().toString()) ||
                 result.equals(Gear.customTierOneSword3.getResult().toString())){
             event.setCurrentItem(CustomItem.getItemFromCustomItem
-                    (Main.fileSystem.createItem((new ItemStack(Material.IRON_SWORD,1)), Tier.I, WeaponType.sword )));
+                    (MainCombat.fileSystem.createItem((new ItemStack(Material.IRON_SWORD,1)), Tier.I, WeaponType.sword )));
         }
         else if(result.equals(Gear.customTierOneHelm.getResult().toString()) || result.equals(Gear.customTierOneHelm2.getResult().toString())){
             event.setCurrentItem(CustomItem.getItemFromCustomItem
-                    (Main.fileSystem.createItem((new ItemStack(Material.IRON_HELMET,1)), Tier.I, ArmorType.chestplate )));
+                    (MainCombat.fileSystem.createItem((new ItemStack(Material.IRON_HELMET,1)), Tier.I, ArmorType.chestplate )));
         }
         else if(result.equals(Gear.customTierOneChest.getResult().toString())){
             event.setCurrentItem(CustomItem.getItemFromCustomItem
-                    (Main.fileSystem.createItem((new ItemStack(Material.IRON_CHESTPLATE,1)), Tier.I, ArmorType.pants )));
+                    (MainCombat.fileSystem.createItem((new ItemStack(Material.IRON_CHESTPLATE,1)), Tier.I, ArmorType.pants )));
         }
         else if(result.equals(Gear.customTierOneLeg.getResult().toString())){
             event.setCurrentItem(CustomItem.getItemFromCustomItem
-                    (Main.fileSystem.createItem((new ItemStack(Material.IRON_LEGGINGS,1)), Tier.I, ArmorType.boots )));
+                    (MainCombat.fileSystem.createItem((new ItemStack(Material.IRON_LEGGINGS,1)), Tier.I, ArmorType.boots )));
         }
         else if(result.equals(Gear.customTierOneBoots.getResult().toString()) || result.equals(Gear.customTierOneBoots2.getResult().toString())){
             event.setCurrentItem(CustomItem.getItemFromCustomItem
-                    (Main.fileSystem.createItem((new ItemStack(Material.IRON_BOOTS,1)), Tier.I, ArmorType.boots )));
+                    (MainCombat.fileSystem.createItem((new ItemStack(Material.IRON_BOOTS,1)), Tier.I, ArmorType.boots )));
         }
 
 

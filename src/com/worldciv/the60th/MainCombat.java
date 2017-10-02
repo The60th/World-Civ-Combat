@@ -21,7 +21,7 @@ import sun.rmi.runtime.Log;
 import java.io.File;
 import java.util.logging.Logger;
 
-public class Main extends JavaPlugin implements Listener{
+public class MainCombat extends JavaPlugin implements Listener{
 
     FileConfiguration config = getConfig();
     public static Plugin plugin;

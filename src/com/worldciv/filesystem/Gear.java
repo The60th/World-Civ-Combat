@@ -1,18 +1,11 @@
 package com.worldciv.filesystem;
 
-import com.worldciv.the60th.Main;
-import net.minecraft.server.v1_11_R1.Item;
-import net.minecraft.server.v1_11_R1.ItemStep;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
-import sun.security.provider.SHA;
-
-import java.util.Arrays;
 
 public class Gear {
 
@@ -39,7 +32,7 @@ public class Gear {
 
 
     public static void customTierOneHelm(){
-        //ItemStack item = CustomItem.getItemFromCustomItem(Main.fileSystem.createItem((new ItemStack(Material.WOOD_SWORD,1)),Tier.five,WeaponType.sword ));
+        //ItemStack item = CustomItem.getItemFromCustomItem(MainCombat.fileSystem.createItem((new ItemStack(Material.WOOD_SWORD,1)),Tier.five,WeaponType.sword ));
         ItemStack item = new ItemStack(Material.IRON_HELMET, 1);
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(ChatColor.GRAY + "Tier One Helm");
@@ -61,7 +54,7 @@ public class Gear {
         Bukkit.getServer().addRecipe(customTierOneHelm2);
     }
     public static void customTierOneChest(){
-        //ItemStack item = CustomItem.getItemFromCustomItem(Main.fileSystem.createItem((new ItemStack(Material.WOOD_SWORD,1)),Tier.five,WeaponType.sword ));
+        //ItemStack item = CustomItem.getItemFromCustomItem(MainCombat.fileSystem.createItem((new ItemStack(Material.WOOD_SWORD,1)),Tier.five,WeaponType.sword ));
         ItemStack item = new ItemStack(Material.IRON_CHESTPLATE, 1);
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(ChatColor.GRAY + "Tier One Chest plate");
@@ -76,7 +69,7 @@ public class Gear {
         Bukkit.getServer().addRecipe(customTierOneChest);
     }
     public static void customTierOneLegs(){
-        //ItemStack item = CustomItem.getItemFromCustomItem(Main.fileSystem.createItem((new ItemStack(Material.WOOD_SWORD,1)),Tier.five,WeaponType.sword ));
+        //ItemStack item = CustomItem.getItemFromCustomItem(MainCombat.fileSystem.createItem((new ItemStack(Material.WOOD_SWORD,1)),Tier.five,WeaponType.sword ));
         ItemStack item = new ItemStack(Material.IRON_LEGGINGS, 1);
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(ChatColor.GRAY + "Tier One Leggings");
@@ -91,7 +84,7 @@ public class Gear {
         Bukkit.getServer().addRecipe(customTierOneLeg);
     }
     public static void customTierOneBoots(){
-        //ItemStack item = CustomItem.getItemFromCustomItem(Main.fileSystem.createItem((new ItemStack(Material.WOOD_SWORD,1)),Tier.five,WeaponType.sword ));
+        //ItemStack item = CustomItem.getItemFromCustomItem(MainCombat.fileSystem.createItem((new ItemStack(Material.WOOD_SWORD,1)),Tier.five,WeaponType.sword ));
         ItemStack item = new ItemStack(Material.IRON_BOOTS, 1);
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(ChatColor.GRAY + "Tier One Boots");
@@ -115,7 +108,7 @@ public class Gear {
         Bukkit.getServer().addRecipe(customTierOneBoots2);
     }
     public static void customTierOneSword(){
-        //ItemStack item = CustomItem.getItemFromCustomItem(Main.fileSystem.createItem((new ItemStack(Material.WOOD_SWORD,1)),Tier.five,WeaponType.sword ));
+        //ItemStack item = CustomItem.getItemFromCustomItem(MainCombat.fileSystem.createItem((new ItemStack(Material.WOOD_SWORD,1)),Tier.five,WeaponType.sword ));
         ItemStack item = new ItemStack(Material.IRON_SWORD, 1);
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(ChatColor.GRAY + "Tier One Sword");
