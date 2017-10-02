@@ -1,14 +1,14 @@
 package com.worldciv.filesystem;
 
-import net.minecraft.server.v1_11_R1.Item;
+import com.worldciv.utils.Rarity;
+import com.worldciv.utils.Tier;
+import com.worldciv.utils.WeaponType;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import javax.rmi.CORBA.Tie;
 import java.io.File;
 import java.util.Arrays;
 

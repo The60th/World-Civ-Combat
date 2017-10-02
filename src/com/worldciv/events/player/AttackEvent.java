@@ -6,6 +6,7 @@ import com.worldciv.utils.ExampleSelfCancelingTask;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -24,6 +25,8 @@ public class AttackEvent implements Listener {
 
     @EventHandler
     public void onEntityDamageEvent(EntityDamageByEntityEvent event) {
+        //pDefender.isBlocking(); //Returns when blocking? 6 tick delay?? //Is blocking == 100 of shield armor.
+        //pDefender.isHandRaised(); //Returns when they are about to block. //IsRaised == 50% of shield armor.
 
         Entity attacker = event.getDamager(); //Attacker
         Entity defender = event.getEntity(); //Defender
@@ -31,18 +34,34 @@ public class AttackEvent implements Listener {
             //Not a PvP action, handle this elsewhere --> Write function to handle this with two Entity as params
             return;
         }
+
+        //TODO Refactor this shit
+        //@Legendary look at this wonderful code.
+        //All dem doubles. Hawt af
         Player pAttacker = (Player) attacker;
         Player pDefender = (Player) defender;
         double customDamage = getDamageFromArray(getDamageItems(pAttacker));
         double armor = getArmorFromArray(getArmorItems(pDefender));
         double damageScaler = getDamageScale(pAttacker,event.getDamage());
         double rawdamage = event.getDamage();
-        //Bukkit.broadcastMessage("Cause: " + event.getCause());
+        boolean isBlocking = pDefender.isBlocking(); //isBlocking() or isHandRaised
+        boolean isHandRaised = pDefender.isHandRaised();
+        double armorFromItems = getPlayerArmorFromHeldItems(pDefender);
 
-        //Calculate swing timer shit here.
+        if(isBlocking){
+            //Player is blocking give full armor.
+            armor = armor + armorFromItems;
+        }else if(isHandRaised){
+            //Player is about to block give part armor.
+            armor = armor + (int)(armorFromItems/2);
+        }
+        else{
+            //No block no armor.
+            armor = armor;
+        }
         double damagePostScale =customDamage*damageScaler;
-        double damagePostArmor= damagePostScale-armor;
-        //Bukkit.broadcastMessage(customDamage + " damage dealt--Armor used: " + armor);
+        double damagePostArmor =damagePostScale-armor;
+
         if(damagePostArmor <= 0){
             if(defenderArmorTracker.containsKey(pDefender)){
                 damagePostArmor = damagePostScale+defenderArmorTracker.get(pDefender);
@@ -175,6 +194,52 @@ public class AttackEvent implements Listener {
             //}
         }
        // Bukkit.broadcastMessage("armor" + armor);
+        return armor;
+    }
+
+    //This method is only written to handle shields as of now.
+    //This will be updated to getPlayerArmorFromOffHandSlot.
+    //In the end this method will also be used for getPlayerArmorFromNonArmorSources
+    private int getPlayerArmorFromHeldItems(Player player){
+        ItemStack mainHand;
+        ItemStack offHand;
+        List<String> lore;
+        int armor = 0;
+        //Off hand shield.
+        try{
+            if(player.getInventory().getItemInOffHand() != null){
+                offHand = player.getInventory().getLeggings();
+                if(offHand.getItemMeta().getLore() != null){
+                    lore = offHand.getItemMeta().getLore();
+                    if(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).startsWith("7UUID: ")){
+                        if(CustomItem.getCustomItemFromUUID(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).substring(7)).getArmor() > 0){
+                            armor = armor + CustomItem.getCustomItemFromUUID(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).substring(7)).getArmor();
+                        }
+                        else{
+                            armor = armor;
+                        }
+                    }
+                }
+            }
+        }catch(NullPointerException e){}
+
+        //Main hand shield
+        try{
+            if(player.getInventory().getItemInOffHand() != null){
+                mainHand = player.getInventory().getLeggings();
+                if(mainHand.getItemMeta().getLore() != null){
+                    lore = mainHand.getItemMeta().getLore();
+                    if(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).startsWith("7UUID: ")){
+                       if(CustomItem.getCustomItemFromUUID(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).substring(7)).getArmor() > 0){
+                            armor = armor + CustomItem.getCustomItemFromUUID(CustomItem.unhideItemUUID(lore.get(lore.size()-1)).substring(7)).getArmor();
+                        }
+                        else{
+                            armor = armor;
+                        }
+                    }
+                }
+            }
+        }catch(NullPointerException e){}
         return armor;
     }
 

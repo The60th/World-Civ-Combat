@@ -8,7 +8,7 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class Gear {
-
+    //This should be done better? Feeder function to register recipes rather then by hand?
     //Swords need 3
     //Helms 2
     //Boots 2
@@ -29,6 +29,8 @@ public class Gear {
 
     public static ShapedRecipe customTierOneBoots;
     public static ShapedRecipe customTierOneBoots2;
+
+    public static ShapedRecipe customTierOneShield;
 
 
     public static void customTierOneHelm(){
@@ -140,6 +142,26 @@ public class Gear {
         customTierOneSword3.setIngredient('@',Material.GLASS);
         customTierOneSword3.setIngredient('#',Material.STICK);
         Bukkit.getServer().addRecipe(customTierOneSword3);
+    }
+
+    public static void CustomTierOneShield(){
+
+        //ItemStack item = CustomItem.getItemFromCustomItem(MainCombat.fileSystem.createItem((new ItemStack(Material.WOOD_SWORD,1)),Tier.five,WeaponType.sword ));
+        ItemStack item = new ItemStack(Material.SHIELD, 1);
+        ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName(ChatColor.GRAY + "Tier One Shield");
+        item.setItemMeta(meta);
+
+        customTierOneShield = new ShapedRecipe(item);
+        customTierOneShield.shape(
+                "@ @",
+                "@#@",
+                " @ "
+        );
+        customTierOneShield.setIngredient('@',Material.GLASS);
+        customTierOneShield.setIngredient('#',Material.IRON_FENCE);
+
+        Bukkit.getServer().addRecipe(customTierOneShield);
     }
 }
 

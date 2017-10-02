@@ -1,3 +1,3 @@
-package com.worldciv.filesystem;
+package com.worldciv.utils;
 
 public enum WeaponType{axe,sword,shield}

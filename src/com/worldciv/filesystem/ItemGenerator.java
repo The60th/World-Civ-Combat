@@ -1,6 +1,10 @@
 package com.worldciv.filesystem;
 
 import com.worldciv.the60th.MainCombat;
+import com.worldciv.utils.ArmorType;
+import com.worldciv.utils.Rarity;
+import com.worldciv.utils.Tier;
+import com.worldciv.utils.WeaponType;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 
