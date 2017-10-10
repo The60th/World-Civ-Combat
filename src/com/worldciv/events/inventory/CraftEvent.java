@@ -6,6 +6,7 @@ import com.worldciv.utils.ArmorType;
 import com.worldciv.utils.Tier;
 import com.worldciv.utils.WeaponType;
 import org.bukkit.Material;
+import org.bukkit.WeatherType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -47,6 +48,14 @@ public class CraftEvent implements Listener {
         else if(result.equals(Gear.customTierOneShield.getResult().toString())){
             event.setCurrentItem(CustomItem.getItemFromCustomItem
                     (MainCombat.fileSystem.createItem(new ItemStack(Material.SHIELD,1),Tier.I,ArmorType.shield)));
+        }
+        else if(result.equals(Gear.customTierOneBow.getResult().toString())){
+            event.setCurrentItem(CustomItem.getItemFromCustomItem
+                    (MainCombat.fileSystem.createItem(new ItemStack(Material.BOW,1),Tier.I, WeaponType.sword)));
+        }
+        else if(result.equals(Gear.customTierOneArrow.getResult().toString())){
+            event.setCurrentItem(CustomItem.getItemFromCustomItem
+                    (MainCombat.fileSystem.createItem(new ItemStack(Material.ARROW,1),Tier.I, WeaponType.sword)));
         }
 
 

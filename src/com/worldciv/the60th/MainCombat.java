@@ -2,6 +2,7 @@ package com.worldciv.the60th;
 
 import com.worldciv.events.inventory.CraftEvent;
 import com.worldciv.events.inventory.CraftEvent;
+import com.worldciv.events.player.ArrowEvents;
 import com.worldciv.events.player.JoinEvent;
 import com.worldciv.events.player.AttackEvent;
 import com.worldciv.filesystem.CustomItem;
@@ -40,12 +41,8 @@ public class MainCombat extends JavaPlugin implements Listener{
                 + "has successfully enabled. The current version is: "
                 + pdfFile.getVersion());
         registerEvents();
+        Gear.registerRecipes();
 
-        Gear.customTierOneSword();
-        Gear.customTierOneHelm();
-        Gear.customTierOneChest();
-        Gear.customTierOneLegs();
-        Gear.customTierOneBoots();
     }
 
     public void onDisable() {
@@ -58,6 +55,7 @@ public class MainCombat extends JavaPlugin implements Listener{
         pm.registerEvents(new JoinEvent(), this);
         pm.registerEvents(new AttackEvent(), this);
         pm.registerEvents(new CraftEvent(), this);
+        pm.registerEvents(new ArrowEvents(), this);
     }
 
 }

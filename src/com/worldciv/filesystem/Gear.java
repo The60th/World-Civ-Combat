@@ -32,7 +32,20 @@ public class Gear {
 
     public static ShapedRecipe customTierOneShield;
 
+    public static ShapedRecipe customTierOneBow;
 
+    public static ShapedRecipe customTierOneArrow;
+
+    public static void registerRecipes(){
+        customTierOneSword();
+        customTierOneHelm();
+        customTierOneChest();
+        customTierOneLegs();
+        customTierOneBoots();
+        CustomTierOneShield();
+        CustomTierOneBow();
+        CustomTierOneArrow();
+    }
     public static void customTierOneHelm(){
         //ItemStack item = CustomItem.getItemFromCustomItem(MainCombat.fileSystem.createItem((new ItemStack(Material.WOOD_SWORD,1)),Tier.five,WeaponType.sword ));
         ItemStack item = new ItemStack(Material.IRON_HELMET, 1);
@@ -162,6 +175,44 @@ public class Gear {
         customTierOneShield.setIngredient('#',Material.IRON_FENCE);
 
         Bukkit.getServer().addRecipe(customTierOneShield);
+    }
+    public static void CustomTierOneArrow(){
+
+        //ItemStack item = CustomItem.getItemFromCustomItem(MainCombat.fileSystem.createItem((new ItemStack(Material.WOOD_SWORD,1)),Tier.five,WeaponType.sword ));
+        ItemStack item = new ItemStack(Material.ARROW, 1);
+        ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName(ChatColor.GRAY + "Tier One Arrow");
+        item.setItemMeta(meta);
+
+        customTierOneArrow = new ShapedRecipe(item);
+        customTierOneArrow.shape(
+                "  @",
+                "  #",
+                "   "
+        );
+        customTierOneArrow.setIngredient('@',Material.GLASS);
+        customTierOneArrow.setIngredient('#',Material.STICK);
+
+        Bukkit.getServer().addRecipe(customTierOneArrow);
+    }
+    public static void CustomTierOneBow(){
+
+        //ItemStack item = CustomItem.getItemFromCustomItem(MainCombat.fileSystem.createItem((new ItemStack(Material.WOOD_SWORD,1)),Tier.five,WeaponType.sword ));
+        ItemStack item = new ItemStack(Material.BOW, 1);
+        ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName(ChatColor.GRAY + "Tier One Bow");
+        item.setItemMeta(meta);
+
+        customTierOneBow = new ShapedRecipe(item);
+        customTierOneBow.shape(
+                " @#",
+                "@ #",
+                " @#"
+        );
+        customTierOneBow.setIngredient('@',Material.GLASS);
+        customTierOneBow.setIngredient('#',Material.STRING);
+
+        Bukkit.getServer().addRecipe(customTierOneBow);
     }
 }
 

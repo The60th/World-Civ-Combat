@@ -5,13 +5,16 @@ import com.worldciv.the60th.MainCombat;
 import com.worldciv.utils.ExampleSelfCancelingTask;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -30,19 +33,48 @@ public class AttackEvent implements Listener {
 
         Entity attacker = event.getDamager(); //Attacker
         Entity defender = event.getEntity(); //Defender
-        if (!(attacker instanceof Player) || !(defender instanceof Player)) {
+       // if (!(attacker instanceof Player) || !(defender instanceof Player) || !(event.getDamager() instanceof  Arrow) ) {
             //Not a PvP action, handle this elsewhere --> Write function to handle this with two Entity as params
-            return;
-        }
+          //  return;
+       // }
+        double customDamage;
+        double damageScaler = 1;
+        Player pAttacker;
+        Player pDefender = (Player) defender;
+        //Do what do melee calculations or ranged calculations.
+        //Find out here.
+        //TODO Create a damage scaler function for ranged damage.
+        if(event.getCause() == EntityDamageEvent.DamageCause.PROJECTILE){
+                //Do arrow stuff here.
+            System.out.println("ChangeArrowDamage");
+            CustomItem[] customItems = new CustomItem[2];
+            double damage;
+            Arrow eArrow = (Arrow) event.getDamager();
+            if(eArrow.hasMetadata(ArrowEvents.ARROW_META_TAG)){
+                for(MetadataValue mdv : eArrow.getMetadata(ArrowEvents.ARROW_META_TAG)){
+                    System.out.println("Arrow lore: " + mdv.asString());
+                    //Create a custom item from UUID.
+                    customItems[0] = CustomItem.getCustomItemFromUUID(mdv.asString().substring(7));
+                }
+            }
+            if(eArrow.hasMetadata(ArrowEvents.BOW_META_TAG)){
+                for(MetadataValue mdv : eArrow.getMetadata(ArrowEvents.BOW_META_TAG)){
+                    System.out.println("Bow Lore: " + mdv.asString());
+                    customItems[1] = CustomItem.getCustomItemFromUUID(mdv.asString().substring(7));
+                }
+            }
 
+            customDamage = getDamageFromArray(customItems);
+        }
+        else{
+            pAttacker = (Player) attacker;
+            customDamage = getDamageFromArray(getDamageItems(pAttacker));
+            damageScaler = getDamageScale(pAttacker,event.getDamage());
+        }
         //TODO Refactor this shit
         //@Legendary look at this wonderful code.
         //All dem doubles. Hawt af
-        Player pAttacker = (Player) attacker;
-        Player pDefender = (Player) defender;
-        double customDamage = getDamageFromArray(getDamageItems(pAttacker));
         double armor = getArmorFromArray(getArmorItems(pDefender));
-        double damageScaler = getDamageScale(pAttacker,event.getDamage());
         double rawdamage = event.getDamage();
         boolean isBlocking = pDefender.isBlocking(); //isBlocking() or isHandRaised
         boolean isHandRaised = pDefender.isHandRaised();
@@ -105,11 +137,12 @@ public class AttackEvent implements Listener {
                 }
             }
         }
-        MainCombat.logger.info(pAttacker.getDisplayName() + " just attacked " + pDefender.getDisplayName() + " dealing " + customDamage
+        MainCombat.logger.info(/*pAttacker.getDisplayName() +*/ " just attacked " + pDefender.getDisplayName() + " dealing " + customDamage
         + " pre armor and scale " + damagePostScale + " damage after scale " + damagePostArmor + " damage after armor. This leaves the defender at "
         + (pDefender.getHealth()) + " health. The raw damage of the attack was " + rawdamage + " the scale was " + damageScaler +
         "\n ****************** " + "\n");
     }
+
 
     private CustomItem[] getArmorItems(Player player){
         ItemStack helm;
@@ -319,6 +352,8 @@ public class AttackEvent implements Listener {
        // Bukkit.broadcastMessage("Diff mod is " + damage);
         return damage;
     }
+
+    private void arrowAttackHandler(){}
 
 
     private void damageTracker(){
