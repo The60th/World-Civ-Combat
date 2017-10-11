@@ -65,6 +65,7 @@ public class AttackEvent implements Listener {
             }
 
             customDamage = getDamageFromArray(customItems);
+            customDamage = customDamage*getDamageScalerBow(event.getDamage());
         }
         else{
             pAttacker = (Player) attacker;
@@ -351,6 +352,11 @@ public class AttackEvent implements Listener {
         damage = eventDamage/damage;
        // Bukkit.broadcastMessage("Diff mod is " + damage);
         return damage;
+    }
+    private double getDamageScalerBow(Double damage){
+        final double bowDamage = 9.5;
+        System.out.println("Bow scale factor: " + (damage/bowDamage));
+        return damage/bowDamage;
     }
 
     private void arrowAttackHandler(){}

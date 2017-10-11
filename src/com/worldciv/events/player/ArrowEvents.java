@@ -34,6 +34,7 @@ public class ArrowEvents implements Listener {
     public static Plugin plugin = MainCombat.plugin;
     public static final String ARROW_META_TAG = "arrowUUID";
     public static final String BOW_META_TAG = "bowUUID";
+    public static final String FORCE_META_TAG = "eventForce";
     @EventHandler
     public void onEntityShootBowEvent(EntityShootBowEvent event){
         Entity entity =  event.getEntity();
@@ -42,11 +43,11 @@ public class ArrowEvents implements Listener {
                 Player p = (Player) entity;
                 ItemStack arrowFired = getArrowStack(p);
                 Arrow arrow = (Arrow)event.getProjectile();
-
                 List<String> lore = event.getBow().getItemMeta().getLore();
                 arrow.setMetadata(BOW_META_TAG, new FixedMetadataValue(plugin, CustomItem.unhideItemUUID(lore.get(lore.size()-1))));
                 lore = arrowFired.getItemMeta().getLore();
                 arrow.setMetadata(ARROW_META_TAG, new FixedMetadataValue(plugin, CustomItem.unhideItemUUID(lore.get(lore.size()-1))));
+                arrow.setMetadata(FORCE_META_TAG, new FixedMetadataValue(plugin,event.getForce())); // max = 1.0f
 
             }
         }
