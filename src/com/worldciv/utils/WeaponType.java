@@ -1,3 +1,3 @@
 package com.worldciv.utils;
 
-public enum WeaponType{axe,sword,shield}
+public enum WeaponType{AXE, SWORD, SHIELD, BOW, ARROW,DEFAULT}

@@ -1,3 +1,3 @@
 package com.worldciv.utils;
 
-public enum ArmorType{helm,chestplate,pants,boots,shield}
+public enum ArmorType{HELM, CHESTPLATE, LEGGINGS, BOOTS,DEFAULT}

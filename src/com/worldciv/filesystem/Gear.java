@@ -47,7 +47,7 @@ public class Gear {
         CustomTierOneArrow();
     }
     private static void customTierOneHelm(){
-        //ItemStack item = CustomItem.getItemFromCustomItem(MainCombat.fileSystem.createItem((new ItemStack(Material.WOOD_SWORD,1)),Tier.five,WeaponType.sword ));
+        //ItemStack item = CustomItem.getItemFromCustomItem(MainCombat.fileSystem.createItem((new ItemStack(Material.WOOD_SWORD,1)),Tier.five,WeaponType.SWORD ));
         ItemStack item = new ItemStack(Material.IRON_HELMET, 1);
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(ChatColor.GRAY + "Tier One Helm");
@@ -69,7 +69,7 @@ public class Gear {
         Bukkit.getServer().addRecipe(customTierOneHelm2);
     }
     private static void customTierOneChest(){
-        //ItemStack item = CustomItem.getItemFromCustomItem(MainCombat.fileSystem.createItem((new ItemStack(Material.WOOD_SWORD,1)),Tier.five,WeaponType.sword ));
+        //ItemStack item = CustomItem.getItemFromCustomItem(MainCombat.fileSystem.createItem((new ItemStack(Material.WOOD_SWORD,1)),Tier.five,WeaponType.SWORD ));
         ItemStack item = new ItemStack(Material.IRON_CHESTPLATE, 1);
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(ChatColor.GRAY + "Tier One Chest plate");
@@ -84,7 +84,7 @@ public class Gear {
         Bukkit.getServer().addRecipe(customTierOneChest);
     }
     private static void customTierOneLegs(){
-        //ItemStack item = CustomItem.getItemFromCustomItem(MainCombat.fileSystem.createItem((new ItemStack(Material.WOOD_SWORD,1)),Tier.five,WeaponType.sword ));
+        //ItemStack item = CustomItem.getItemFromCustomItem(MainCombat.fileSystem.createItem((new ItemStack(Material.WOOD_SWORD,1)),Tier.five,WeaponType.SWORD ));
         ItemStack item = new ItemStack(Material.IRON_LEGGINGS, 1);
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(ChatColor.GRAY + "Tier One Leggings");
@@ -99,7 +99,7 @@ public class Gear {
         Bukkit.getServer().addRecipe(customTierOneLeg);
     }
     private static void customTierOneBoots(){
-        //ItemStack item = CustomItem.getItemFromCustomItem(MainCombat.fileSystem.createItem((new ItemStack(Material.WOOD_SWORD,1)),Tier.five,WeaponType.sword ));
+        //ItemStack item = CustomItem.getItemFromCustomItem(MainCombat.fileSystem.createItem((new ItemStack(Material.WOOD_SWORD,1)),Tier.five,WeaponType.SWORD ));
         ItemStack item = new ItemStack(Material.IRON_BOOTS, 1);
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(ChatColor.GRAY + "Tier One Boots");
@@ -123,7 +123,7 @@ public class Gear {
         Bukkit.getServer().addRecipe(customTierOneBoots2);
     }
     private static void customTierOneSword(){
-        //ItemStack item = CustomItem.getItemFromCustomItem(MainCombat.fileSystem.createItem((new ItemStack(Material.WOOD_SWORD,1)),Tier.five,WeaponType.sword ));
+        //ItemStack item = CustomItem.getItemFromCustomItem(MainCombat.fileSystem.createItem((new ItemStack(Material.WOOD_SWORD,1)),Tier.five,WeaponType.SWORD ));
         ItemStack item = new ItemStack(Material.IRON_SWORD, 1);
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(ChatColor.GRAY + "Tier One Sword");
@@ -159,7 +159,7 @@ public class Gear {
 
     private static void CustomTierOneShield(){
 
-        //ItemStack item = CustomItem.getItemFromCustomItem(MainCombat.fileSystem.createItem((new ItemStack(Material.WOOD_SWORD,1)),Tier.five,WeaponType.sword ));
+        //ItemStack item = CustomItem.getItemFromCustomItem(MainCombat.fileSystem.createItem((new ItemStack(Material.WOOD_SWORD,1)),Tier.five,WeaponType.SWORD ));
         ItemStack item = new ItemStack(Material.SHIELD, 1);
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(ChatColor.GRAY + "Tier One Shield");
@@ -178,7 +178,7 @@ public class Gear {
     }
     private static void CustomTierOneArrow(){
 
-        //ItemStack item = CustomItem.getItemFromCustomItem(MainCombat.fileSystem.createItem((new ItemStack(Material.WOOD_SWORD,1)),Tier.five,WeaponType.sword ));
+        //ItemStack item = CustomItem.getItemFromCustomItem(MainCombat.fileSystem.createItem((new ItemStack(Material.WOOD_SWORD,1)),Tier.five,WeaponType.SWORD ));
         ItemStack item = new ItemStack(Material.ARROW, 1);
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(ChatColor.GRAY + "Tier One Arrow");
@@ -197,7 +197,7 @@ public class Gear {
     }
     private static void CustomTierOneBow(){
 
-        //ItemStack item = CustomItem.getItemFromCustomItem(MainCombat.fileSystem.createItem((new ItemStack(Material.WOOD_SWORD,1)),Tier.five,WeaponType.sword ));
+        //ItemStack item = CustomItem.getItemFromCustomItem(MainCombat.fileSystem.createItem((new ItemStack(Material.WOOD_SWORD,1)),Tier.five,WeaponType.SWORD ));
         ItemStack item = new ItemStack(Material.BOW, 1);
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(ChatColor.GRAY + "Tier One Bow");

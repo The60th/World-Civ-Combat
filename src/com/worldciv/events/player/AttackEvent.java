@@ -28,8 +28,8 @@ public class AttackEvent implements Listener {
 
     @EventHandler
     public void onEntityDamageEvent(EntityDamageByEntityEvent event) {
-        //pDefender.isBlocking(); //Returns when blocking? 6 tick delay?? //Is blocking == 100 of shield armor.
-        //pDefender.isHandRaised(); //Returns when they are about to block. //IsRaised == 50% of shield armor.
+        //pDefender.isBlocking(); //Returns when blocking? 6 tick delay?? //Is blocking == 100 of SHIELD armor.
+        //pDefender.isHandRaised(); //Returns when they are about to block. //IsRaised == 50% of SHIELD armor.
 
         Entity attacker = event.getDamager(); //Attacker
         Entity defender = event.getEntity(); //Defender
@@ -239,7 +239,7 @@ public class AttackEvent implements Listener {
         ItemStack offHand;
         List<String> lore;
         int armor = 0;
-        //Off hand shield.
+        //Off hand SHIELD.
         try{
             if(player.getInventory().getItemInOffHand() != null){
                 offHand = player.getInventory().getLeggings();
@@ -257,7 +257,7 @@ public class AttackEvent implements Listener {
             }
         }catch(NullPointerException e){}
 
-        //Main hand shield
+        //Main hand SHIELD
         try{
             if(player.getInventory().getItemInOffHand() != null){
                 mainHand = player.getInventory().getLeggings();
